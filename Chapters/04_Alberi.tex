@@ -4,40 +4,40 @@
 \subsubsection{Definizione chiusa}
 Un albero radicato consiste in una serie di nodi e un insieme di archi orientati che connettono coppie di nodi con le seguenti propriet\`a:
 \begin{itemize}
-\item Un nodo dell'albero \`e designato come radice.
-\item Ogni nodo $n$, a parte la radice ha esattamente un arco entrante.
-\item Esiste un cammino unico dalla radice ad ogni nodo.
-\item L'albero \`e connesso.
+    \item Un nodo dell'albero \`e designato come radice.
+    \item Ogni nodo $n$, a parte la radice ha esattamente un arco entrante.
+    \item Esiste un cammino unico dalla radice ad ogni nodo.
+    \item L'albero \`e connesso.
 \end{itemize}
 \subsubsection{Definizione ricorsiva}
 Un albero radicato \`e dato da:
 \begin{itemize}
-\item Un insieme vuoto.
-\item Un nodo radice e zero o pi\`u sottoalberi ognuno dei quali \`e un albero, la radice \`e connessa alla radice di ogni sottoalbero con un arco orientato.
+    \item Un insieme vuoto.
+    \item Un nodo radice e zero o pi\`u sottoalberi ognuno dei quali \`e un albero, la radice \`e connessa alla radice di ogni sottoalbero con un arco orientato.
 \end{itemize}
 \subsection{Terminologia}
 \begin{itemize}
-\item Il nodo senza archi entranti \`e detto radice (root).
-\item Per generare i sottoalberi (subtrees) da un albero si elimina la radice e tutti i suoi archi uscenti.
-\item Nodi con lo stesso genitore sono detti fratelli (siblings).
-\item Considerando un arco, il nodo da cui parte \`e detto genitore (parent) del nodo in cui arriva, detto figlio (child).
-\item I nodi senza archi uscenti sono detti foglie (leaves).
-\item I nodi n\`e foglie n\`e radice sono detti interni (internal nodes).
-\item La lunghezza del cammino semplice dalla radice ad un nodo, misurato nel numero di archi \`e detto profondit\`a (depth) del nodo.
-\item I nodi alla stessa profondit\`a formano un insieme chiamato livello (level).
-\item La profondit\`a massima dell'albero si dice altezza (height).
+    \item Il nodo senza archi entranti \`e detto radice (root).
+    \item Per generare i sottoalberi (subtrees) da un albero si elimina la radice e tutti i suoi archi uscenti.
+    \item Nodi con lo stesso genitore sono detti fratelli (siblings).
+    \item Considerando un arco, il nodo da cui parte \`e detto genitore (parent) del nodo in cui arriva, detto figlio (child).
+    \item I nodi senza archi uscenti sono detti foglie (leaves).
+    \item I nodi n\`e foglie n\`e radice sono detti interni (internal nodes).
+    \item La lunghezza del cammino semplice dalla radice ad un nodo, misurato nel numero di archi \`e detto profondit\`a (depth) del nodo.
+    \item I nodi alla stessa profondit\`a formano un insieme chiamato livello (level).
+    \item La profondit\`a massima dell'albero si dice altezza (height).
 \end{itemize}
 \section{Visite di alberi}
 La visita di un albero o ricerca \`e una strategia per visitare tutti i nodi di un albero. Il costo computazionale di una visita su un albero su $n$ nodi
 \`e $\Theta(n)$ in quanto ogni nodo viene visitato un'unica volta.
 \subsection{Visita in profondit\`a}
-La visita in profondit\`a o depth-first-search (dfs) si compie visitando ricorsivamente tutti i sottoalberi dell'albero, richiede uno stack ed esiste in tre 
+La visita in profondit\`a o depth-first-search (dfs) si compie visitando ricorsivamente tutti i sottoalberi dell'albero, richiede uno stack ed esiste in tre
 varianti: pre, in e post order.
 \subsection{Visita in ampiezza}
-La visita in ampiezza o breadth-fisrt-search (bfs) visita completamente ogni livello prima di passare al successivo partendo dalla radice. Richiede una 
+La visita in ampiezza o breadth-fisrt-search (bfs) visita completamente ogni livello prima di passare al successivo partendo dalla radice. Richiede una
 queue.
 \section{Albero binario}
-Un albero binario \`e un albero radicato in cui ogni nodo ha al massimo due figli, indicati con figlio destro e sinistro. Due alberi binari differiscono 
+Un albero binario \`e un albero radicato in cui ogni nodo ha al massimo due figli, indicati con figlio destro e sinistro. Due alberi binari differiscono
 anche se uno stesso nodo \`e designato come figlio sinistro invece che destro o viceversa.
 \subsection{Specifica}
 \input{Pseudocodice/13_}

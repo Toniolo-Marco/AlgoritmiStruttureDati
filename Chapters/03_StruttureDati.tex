@@ -1,56 +1,56 @@
 \chapter{Strutture dati}
 Si intende per dato in un linguaggio di programmazione un valore che una variabile pu\`o assumere. Un tipo di dato astratto \`e una collezione di valori e un
 insieme di operazioni ammesse su quei valori. Si dicono primitivi i tipi di dati forniti direttamente dal linguaggio di programmazione. La definizione di un
-tipo di dato astratto si divide nella specifica, una descrizione di alto livello di come pu\`o essere utilizzata e nell'implementazione, la realizzazione 
+tipo di dato astratto si divide nella specifica, una descrizione di alto livello di come pu\`o essere utilizzata e nell'implementazione, la realizzazione
 vera e propria di basso livello. Le strutture dati sono collezioni di dati, caratterizzate dall'organizzazione della collezione stessa pi\`u che dal tipo di
-dati contenuti. Le strutture dati sono caratterizzate da un insieme di operazioni che permettono di manipolarne la struttura e un modo sistematico per 
+dati contenuti. Le strutture dati sono caratterizzate da un insieme di operazioni che permettono di manipolarne la struttura e un modo sistematico per
 organizzare l'insieme di dati. Le strutture dati si dividono in:
 \begin{itemize}
-\item Lineari o non lineari rispetto alla presenza o meno di una sequenza.
-\item Statiche o dinamiche se la dimensione della struttura pu\`o variare o meno.
-\item Omogenee o disomogenee se possono contenere uno o diversi tipi di dati.
+    \item Lineari o non lineari rispetto alla presenza o meno di una sequenza.
+    \item Statiche o dinamiche se la dimensione della struttura pu\`o variare o meno.
+    \item Omogenee o disomogenee se possono contenere uno o diversi tipi di dati.
 \end{itemize}
 \section{Sequenza}
 Una sequenza \`e una struttura dati dinamica, lineare che rappresenta una sequenza ordinata di valori, dove un valore pu\`o comparire pi\`u di una volta. \`E
-importante l'ordine all'interno della sequenza. 
+importante l'ordine all'interno della sequenza.
 \subsubsection{Operazioni ammesse}
 \begin{itemize}
-\item Data una posizione \`e possibile aggiungere o eliminare un elemento in quella posizione. Si considerano anche per comodit\`a le posizioni $pos_0$ e 
-$pos_{n+1}$.
-\item \`E possibile accedere direttamente alla testa e alla coda della sequenza.
-\item \`E possibile accedere sequenzialmente a tutti gli altri elementi.
+    \item Data una posizione \`e possibile aggiungere o eliminare un elemento in quella posizione. Si considerano anche per comodit\`a le posizioni $pos_0$ e
+          $pos_{n+1}$.
+    \item \`E possibile accedere direttamente alla testa e alla coda della sequenza.
+    \item \`E possibile accedere sequenzialmente a tutti gli altri elementi.
 \end{itemize}
 \subsubsection{Specifica}
 \input{Pseudocodice/5_}
 \newpage
 \section{Insiemi}
 Per insieme si intende una struttura dati dinamica, non lineare che memorizza una collezione non ordinata di elementi senza valori ripetuti. L'ordinamento
-tra i valori sar\`a dato dall'eventuale relazione d'ordine definita sul tipo di elementi stessi. 
+tra i valori sar\`a dato dall'eventuale relazione d'ordine definita sul tipo di elementi stessi.
 \subsubsection{Operazioni ammesse}
 \begin{multicols}{2}
-\begin{itemize}
-\item Operazioni base:
-\begin{itemize}
-\item Inserimento.
-\item Cancellazione.
-\item Verifica contenimento.
-\end{itemize}
-\item Operazioni di ordinamento:
-\begin{itemize}
-\item Massimo.
-\item Minimo.
-\end{itemize}
-\item Operazioni insiemistiche:
-\begin{itemize}
-\item Unione.
-\item Intersezione.
-\item Differenza.
-\end{itemize}
-\item Iteratori.
-\begin{itemize}
-\item \textbf{foreach} $x\in S$ \textbf{do}.
-\end{itemize}
-\end{itemize}
+    \begin{itemize}
+        \item Operazioni base:
+              \begin{itemize}
+                  \item Inserimento.
+                  \item Cancellazione.
+                  \item Verifica contenimento.
+              \end{itemize}
+        \item Operazioni di ordinamento:
+              \begin{itemize}
+                  \item Massimo.
+                  \item Minimo.
+              \end{itemize}
+        \item Operazioni insiemistiche:
+              \begin{itemize}
+                  \item Unione.
+                  \item Intersezione.
+                  \item Differenza.
+              \end{itemize}
+        \item Iteratori.
+              \begin{itemize}
+                  \item \textbf{foreach} $x\in S$ \textbf{do}.
+              \end{itemize}
+    \end{itemize}
 \end{multicols}
 \subsubsection{Specifica}
 \input{Pseudocodice/6_}
@@ -59,22 +59,22 @@ Un dizionario \`e una struttura dati che rappresenta il concetto matematico di r
 $D$ \`e il dominio ed \`e costituito dalle chiavi, l'insieme $C$ \`e il codominio ed \`e costituito dai valori.
 \subsubsection{Operazioni ammesse}
 \begin{itemize}
-\item Ottenere il valore associato ad una particolare chiave se presente altrimenti \textbf{nil}.
-\item Inserire una nuova associazione chiave-valore cancellando eventualmente associazioni precedenti per la stessa chiave.
-\item Rimuovere un'associazione chiave-valore esistente.
+    \item Ottenere il valore associato ad una particolare chiave se presente altrimenti \textbf{nil}.
+    \item Inserire una nuova associazione chiave-valore cancellando eventualmente associazioni precedenti per la stessa chiave.
+    \item Rimuovere un'associazione chiave-valore esistente.
 \end{itemize}
 \subsubsection{Specifica}
 \input{Pseudocodice/7_}
 \section{Alberi e grafi}
 \subsection{Alberi ordinati}
-Un albero ordinato \`e dato da un insieme finito di elementi detti nodi, uno dei quali \`e designato come radice e i rimanenti, se esistono, sono 
+Un albero ordinato \`e dato da un insieme finito di elementi detti nodi, uno dei quali \`e designato come radice e i rimanenti, se esistono, sono
 partizionati in insiemi ordinati e disgiunti, anch'essi alberi ordinati.
 \subsection{Grafi}
 La struttura di un grafo \`e composta da un insieme di elementi detti nodi o vertici e un insieme di coppie (ordinate o no) di nodi detti archi.
 \subsection{Operazioni}
 Tutte le operazioni su grafi e alberi ruotano intorno alla possibilit\`a di effettuare visite su di essi.
 \section{Lista}
-Una lista o linked list \`e una struttura dati contenente una sequenza di nodi contenente dati arbitrari, $1-2$ puntatori all'elemento successivo e/o a 
+Una lista o linked list \`e una struttura dati contenente una sequenza di nodi contenente dati arbitrari, $1-2$ puntatori all'elemento successivo e/o a
 quello precedente. La contiguit\`a nella lista \`e diversa dalla contiguit\`a in memoria e tutte le operazioni su una lista hanno costo $O(1)$.
 \subsubsection{Possibili implementazioni}
 Bidirezionale o monodirezionale: in base al numero di puntatori e se puntano a quello successivo e/o a quello precedente.
@@ -83,16 +83,16 @@ Circolare o non circolare: si dice circolare se il puntatore dell'ultimo element
 \subsubsection{Lista bidirezionale con sentinella}
 \input{Pseudocodice/8_}
 \section{Pila}
-Una pila o stack \`e una struttura dati lineare e dinamica in cui l'elemento rimosso dall'operazione di cancellazione \`e determinato, ovvero quello che 
-per meno tempo \`e rimasto nell'insieme (LIFO: last-in, first-out). Possibili implementazioni sono una lista bidirezionale con un puntatore all'elemento 
-top o tramite vettore, con dimensione limitata ma overhead pi\`u basso. 
+Una pila o stack \`e una struttura dati lineare e dinamica in cui l'elemento rimosso dall'operazione di cancellazione \`e determinato, ovvero quello che
+per meno tempo \`e rimasto nell'insieme (LIFO: last-in, first-out). Possibili implementazioni sono una lista bidirezionale con un puntatore all'elemento
+top o tramite vettore, con dimensione limitata ma overhead pi\`u basso.
 \subsubsection{Specifica}
 \input{Pseudocodice/9_Stack}
 \subsubsection{Lista basata su vettore}
 \input{Pseudocodice/10_}
 \section{Coda}
-Una coda \`e una struttura dati lineare e dinamica in cui l'elemento rimosso dall'operazione di cancellazione \`e determinato, ovvero quello che per pi\`u 
-tempo \`e rimasto nell'insieme (FIFO: first-in, first-out, questo tipo di politica si dice fair). Si pu\`o implementare attraverso liste monodirezionali 
+Una coda \`e una struttura dati lineare e dinamica in cui l'elemento rimosso dall'operazione di cancellazione \`e determinato, ovvero quello che per pi\`u
+tempo \`e rimasto nell'insieme (FIFO: first-in, first-out, questo tipo di politica si dice fair). Si pu\`o implementare attraverso liste monodirezionali
 con il puntatore head per l'estrazione e il puntatore tail per l'inserimento o tramite array circolari, con dimensione limitata ma overhead pi\`u basso.
 Per i secondi la circolarit\`a \`e ottenuta attraverso l'operazione modulo e si deve prestare attenzione ai problemi di overflow.
 \subsubsection{Specifica}

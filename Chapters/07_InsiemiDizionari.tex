@@ -6,7 +6,7 @@
 \subsubsection{Caratteristiche}
 Gli insiemi possono essere memorizzati come un vettore di $m$ elementi, se si vogliono salvare gli interi da $1$ a $m$. Questo tipo di implementazione \`e
 molto semplice ed \`e efficiente verificare se un elemento appartiene ad un insieme. Come svantaggi presenta lo spreco di memoria, in quanto la memoria
-occupata \`e sempre $O(m)$ indipendentemente dagli elementi salvati. E alcune operazioni sono inefficienti in $O(m)$. 
+occupata \`e sempre $O(m)$ indipendentemente dagli elementi salvati. E alcune operazioni sono inefficienti in $O(m)$.
 \subsection{Insiemi realizzati con liste}
 \subsubsection{Liste non ordinate}
 Operazioni di ricerca, inserimento e cancellazione $O(n)$, operazioni di inserimento assumendo assenza $O(1)$. Operazioni di unione intersezione, differenza
@@ -19,38 +19,38 @@ Ricerca $O(n)$ per liste e $O(\log n)$ per i vettori, inserimento e cancellazion
 \subsubsection{Alberi bilanciati}
 Si ottengono insiemi con ordinamento, con ricerca, inserimento, cancellazione $O(\log n)$, iterazione $O(n)$.
 \subsubsection{Tabelle hash}
-Si ottengono insiemi senza ordinamento, con ricerca, inserimento, cancellazione $O(1)$, iterazione $O(m)$. 
+Si ottengono insiemi senza ordinamento, con ricerca, inserimento, cancellazione $O(1)$, iterazione $O(m)$.
 \section{Bloom filters}
 I bloom filters sono una via di mezzo tra gli insiemi realizzati con i vettori booleani e le tabelle hash, sono una struttura dati dinamica con bassa
-occupazione di memoria che non offre la possibilit\`a di cancellazioni, nessuna memorizzazione e d\`a risposte probabilistiche. 
+occupazione di memoria che non offre la possibilit\`a di cancellazioni, nessuna memorizzazione e d\`a risposte probabilistiche.
 \subsection{Specifica}
-L'operazione di \emph{insert(x)} inserisce l'elemento $x$ nel bloom filter. \emph{\textbf{booleans} contains(x)} se restituisce \textbf{false} l'elemento 
+L'operazione di \emph{insert(x)} inserisce l'elemento $x$ nel bloom filter. \emph{\textbf{booleans} contains(x)} se restituisce \textbf{false} l'elemento
 non sicuramente \`e presente, ma \`e possibile che ci siano dei falsi positivi. Si deve fare un trade-off tra occupazione di memoria e probabilit\`a di un
-falso positivo. Indicata con $\varepsilon$ la probabilit\`a di un falso positivo, i bloom filters richiedono $1.44\log_2(\frac{1}{\varepsilon})$ bit per 
-elemento inserito. 
+falso positivo. Indicata con $\varepsilon$ la probabilit\`a di un falso positivo, i bloom filters richiedono $1.44\log_2(\frac{1}{\varepsilon})$ bit per
+elemento inserito.
 \subsection{Applicazioni}
-In chrome vengono utilizzati per indicare i siti con possibile malware, o in generale vengono utilizzati quando una verifica locale permette di evitare 
-operazioni di I/O pi\`u costose. I falsi positivi inoltre possono essere utilizzati per mascherare un messaggio e garantire cos\`i un certo livello di 
+In chrome vengono utilizzati per indicare i siti con possibile malware, o in generale vengono utilizzati quando una verifica locale permette di evitare
+operazioni di I/O pi\`u costose. I falsi positivi inoltre possono essere utilizzati per mascherare un messaggio e garantire cos\`i un certo livello di
 privacy.
 \newpage
 \subsection{Implementazione}
-Vengono implementati attraverso un vettore booleando $A$ di $m$ bit inizializzato a \textbf{false} e $k$ funzioni di hash $H_1,\dots, H_k:U\rightarrow [0, 
-\dots, m-1]$. 
+Vengono implementati attraverso un vettore booleando $A$ di $m$ bit inizializzato a \textbf{false} e $k$ funzioni di hash $H_1,\dots, H_k:U\rightarrow [0,
+        \dots, m-1]$.
 \begin{multicols}{2}
-\input{Pseudocodice/43_}
-\columnbreak
-\input{Pseudocodice/44_}
+    \input{Pseudocodice/43_}
+    \columnbreak
+    \input{Pseudocodice/44_}
 \end{multicols}
 \subsection{Caratterizzazione matematica}
 Dati $n$ oggetti, $m$ bit e $k$ funzioni hash, la probabilit\`a di un falso positivo \`e:
 \begin{equation*}
-\varepsilon=(1-e^{-k\frac{n}{m}})^k
+    \varepsilon=(1-e^{-k\frac{n}{m}})^k
 \end{equation*}
 Dati $n$ oggetti e $m$ bit il valore ottimale per $k$ \`e:
 \begin{equation*}
-k=\dfrac{m}{n}\ln 2
+    k=\dfrac{m}{n}\ln 2
 \end{equation*}
 Dati $n$ oggetti e una probabilit\`a di falsi positivi $\varepsilon$ il numero di bit $m$ richiesti \`e pari a:
 \begin{equation*}
-m=\dfrac{n\ln\varepsilon}{(\ln 2)^2}
+    m=\dfrac{n\ln\varepsilon}{(\ln 2)^2}
 \end{equation*}

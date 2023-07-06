@@ -1,4 +1,6 @@
-\documentclass[oneside]{book}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{prefix}
+
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
@@ -15,6 +17,7 @@
 \usepackage{emptypage}
 \usepackage{multicol}
 \usepackage[ruled,vlined]{algorithm2e}
+\usepackage{cancel}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -36,10 +39,11 @@
 }
   
 \date{\textbf{\today}}
+\title{\Huge \textbf{Algoritmi e strutture dati}}
 \author{
   Giacomo Fantoni \\
   \small Telegram: \href{https://t.me/GiacomoFantoni}{@GiacomoFantoni} \\[3pt]
-  Github: \href{https://github.com/whocares/repository}{Github Repository}}
+  \small Github: \href{https://github.com/giacThePhantom/AlgoritmiStruttureDati}{https://github.com/giacThePhantom/AlgoritmiStruttureDati}}
 
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 \renewcommand*{\listalgorithmcfname}{}

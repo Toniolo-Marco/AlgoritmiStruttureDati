@@ -1,9 +1,9 @@
-\chapter{Alberi di ricerca}
+w\chapter{Alberi di ricerca}
 Si vuole portare la ricerca binaria negli alberi in modo da implementare un dizionario.
 \begin{itemize}
-\item Le associazioni chiave-valore vengono memorizzate in un albero binario.
-\item Ogni nodo $u$ contiene la coppia $u.key$ e $u.value$.
-\item Le chiavi devono appartenere ad un insieme totalmente ordinato.
+    \item Le associazioni chiave-valore vengono memorizzate in un albero binario.
+    \item Ogni nodo $u$ contiene la coppia $u.key$ e $u.value$.
+    \item Le chiavi devono appartenere ad un insieme totalmente ordinato.
 \end{itemize}
 Le chiavi contenute nel sottoalbero sinistro di $u$ sono minori di $u.key$ e quelle contenute nel sottoalbero destro maggiori. In questo modo \`e possibile
 realizzare un algoritmo di ricerca dicotomica.
@@ -17,28 +17,28 @@ La funzione \emph{lookUpNode(Tree t, Item k)} restituisce il nodo dell'albero $t
 \input{Pseudocodice/22_Lookup}
 \subsubsection{Implementazione}
 \begin{multicols}{2}
-\myparagraph{Iterativa}
-\input{Pseudocodice/23_}
-\myparagraph{Ricorsiva}
-\input{Pseudocodice/24_}
+    \myparagraph{Iterativa}
+    \input{Pseudocodice/23_}
+    \myparagraph{Ricorsiva}
+    \input{Pseudocodice/24_}
 \end{multicols}
 \subsection{Minimo e massimo}
 \subsubsection{Implementazione}
 \begin{multicols}{2}
-\input{Pseudocodice/25_}
-\columnbreak
-\input{Pseudocodice/26_}
+    \input{Pseudocodice/25_}
+    \columnbreak
+    \input{Pseudocodice/26_}
 \end{multicols}
 \subsection{Successore e predecessore}
-Si definisce successore di un nodo $u$ il pi\`u piccolo nodo maggiore di $u$. 
+Si definisce successore di un nodo $u$ il pi\`u piccolo nodo maggiore di $u$.
 \subsubsection{Implementazione}
 \begin{multicols}{2}
-\input{Pseudocodice/27_SuccessorNode}
-\columnbreak
-\input{Pseudocodice/28_SuccessorNode}
+    \input{Pseudocodice/27_SuccessorNode}
+    \columnbreak
+    \input{Pseudocodice/28_SuccessorNode}
 \end{multicols}
 \subsection{Inserimento}
-L'operazione \emph{insertNode(Tree t, Item k, Item v)} inserisce un'associazione chiave-valore \emph{(k, v)} nell'albero \emph{t}. Se la chiave \`e gi\`a 
+L'operazione \emph{insertNode(Tree t, Item k, Item v)} inserisce un'associazione chiave-valore \emph{(k, v)} nell'albero \emph{t}. Se la chiave \`e gi\`a
 presente sostituisce il valore associato, altrimenti viene inserita una nuova associazione. Se \emph{T = \textbf{nil}} restituisce il primo nodo
 dell'albero, altrimenti restituisce \emph{t} inalterato.
 \subsubsection{Implementazione dizionario}
@@ -55,124 +55,124 @@ possibilmente cambiata.
 \input{Pseudocodice/33_RemoveNode}
 \subsubsection{Dimostrazione correttezza}
 \begin{itemize}
-\item Caso 1: Eliminare foglie non cambia l'ordine dei nodi rimanenti.
-\item Caso 2: Se \emph{u} \`e il figlio destro (sinistro) di \emph{p}, tutti i valori nel sottoalbero di \emph{f} sono maggiori (minori) di \emph{p}, 
-pertanto \emph{f} pu\`o essere attaccato come figlio destro (sinistro) di \emph{p} al posto di \emph{u}.
-\item Caso 3: il successore \emph{s} \`e sicuramente $\ge$ dei nodi del sottoalbero sinistro di \emph{u} e sicuramente $\le$ dei nodi del sottoalbero destro 
-di \emph{u}, pertanto pu\`o essere sostituito a \emph{u} e a quel punto si ricade nel caso 2.
+    \item Caso 1: Eliminare foglie non cambia l'ordine dei nodi rimanenti.
+    \item Caso 2: Se \emph{u} \`e il figlio destro (sinistro) di \emph{p}, tutti i valori nel sottoalbero di \emph{f} sono maggiori (minori) di \emph{p},
+          pertanto \emph{f} pu\`o essere attaccato come figlio destro (sinistro) di \emph{p} al posto di \emph{u}.
+    \item Caso 3: il successore \emph{s} \`e sicuramente $\ge$ dei nodi del sottoalbero sinistro di \emph{u} e sicuramente $\le$ dei nodi del sottoalbero destro
+          di \emph{u}, pertanto pu\`o essere sostituito a \emph{u} e a quel punto si ricade nel caso 2.
 \end{itemize}
 \section{Costo computazionale}
-Tutte le operazioni sono confinate ai nodi posizionati lungo un cammino semplice dalla radice ad una foglia, pertanto detta $h$ altezza di un albero, 
+Tutte le operazioni sono confinate ai nodi posizionati lungo un cammino semplice dalla radice ad una foglia, pertanto detta $h$ altezza di un albero,
 avranno complessit\`a $O(h)$. Il caso pessimo si ha nel caso in cui l'altezza $h$ sia uguale a $n$ ($O(n)$), il caso ottimo quando $h=\log n$ ($O(\log n)$).
 \section{Alberi di ricerca bilanciati}
 Per mantenere un grado di complessit\`a il pi\`u vicino possibile a $O(\log n)$ si utilizzano tecniche di bilanciamento per tenere sotto controllo l'altezza
-di un albero. Si introduce un fattore di bilanciamento $\beta(v)$, ovvero la massima differenza di altezza fra i sottoalberi di $v$. 
+di un albero. Si introduce un fattore di bilanciamento $\beta(v)$, ovvero la massima differenza di altezza fra i sottoalberi di $v$.
 \begin{itemize}
-\item Alberi AVL: $\beta(v)\le 1$ per ogni nodo $v$, bilanciamento ottenuto tramite rotazioni.
-\item B-Alberi: $\beta(v)=0$ per ogni nodo $v$, specializzati per strutture in memoria secondaria.
-\item Alberi 2-3: $\beta(v)=0$ per ogni nodo $v$, bilanciamento ottenuto tramite merge/split, grado variabile.
+    \item Alberi AVL: $\beta(v)\le 1$ per ogni nodo $v$, bilanciamento ottenuto tramite rotazioni.
+    \item B-Alberi: $\beta(v)=0$ per ogni nodo $v$, specializzati per strutture in memoria secondaria.
+    \item Alberi 2-3: $\beta(v)=0$ per ogni nodo $v$, bilanciamento ottenuto tramite merge/split, grado variabile.
 \end{itemize}
-\subsubsection{Rotazioni} 
+\subsubsection{Rotazioni}
 \paragraph{Rotazione sinistra}
-Si prende un nodo di un albero, si fa diventare suo figlio destro il figlio sinistro del figlio destro, successivamente si pone il nodo iniziale come figlio 
+Si prende un nodo di un albero, si fa diventare suo figlio destro il figlio sinistro del figlio destro, successivamente si pone il nodo iniziale come figlio
 sinistro del vecchio nodo destro e il vecchio genitore del nodo iniziale diventa il genitore del vecchio nodo destro.
 \paragraph{Rotazione destra}
 Si prende un nodo di un albero, si fa diventare suo figlio sinistro il figlio destro del suo figlio sinistro, successivamente si pone il nodo iniziale come
 figlio destro del vecchio nodo sinistro e il vecchio genitore del nodo iniziale diventa il genitore del vecchio nodo sinistro.
 \begin{multicols}{2}
-\input{Pseudocodice/34_RotateLeft}
-\columnbreak
-\input{Pseudocodice/35_RotateLeft}
+    \input{Pseudocodice/34_RotateLeft}
+    \columnbreak
+    \input{Pseudocodice/35_RotateLeft}
 \end{multicols}
 
 \subsection{Alberi red-black}
-Un albero red-black \`e un albero binario di ricerca in cui ogni nodo \`e colorato di rosso o nero, le chiavi vengono salvate solo nei nodi interni 
-all'albero e le foglie sono costituiti da nodi speciali \textbf{Nil}. Un albero red-black \`e costruito in modo che rispetti questi vincoli: 
+Un albero red-black \`e un albero binario di ricerca in cui ogni nodo \`e colorato di rosso o nero, le chiavi vengono salvate solo nei nodi interni
+all'albero e le foglie sono costituiti da nodi speciali \textbf{Nil}. Un albero red-black \`e costruito in modo che rispetti questi vincoli:
 \begin{itemize}
-\item La radice \`e nera.
-\item Tutte le foglie sono nere.
-\item Entrambi i figli di un nodo rosso sono neri.
-\item Tutti i cammini semplici da un nodo $u$ a una delle foglie contenute nel sottoalbero radicato in $u$ hanno lo stesso numero di nodi neri.
+    \item La radice \`e nera.
+    \item Tutte le foglie sono nere.
+    \item Entrambi i figli di un nodo rosso sono neri.
+    \item Tutti i cammini semplici da un nodo $u$ a una delle foglie contenute nel sottoalbero radicato in $u$ hanno lo stesso numero di nodi neri.
 \end{itemize}
 \subsubsection{Memorizzazione}
 \begin{multicols}{2}
-\input{Pseudocodice/36_}
-\columnbreak
-I nodi \textbf{Nil} sono nodi sentinella il cui scopo \`e evitare di trattare diversamente i puntatori ai nodi dai puntatori \textbf{nil}. Al posto di un
-puntatore \textbf{nil} si utilizza un puntatore ad un nodo speciale \textbf{Nil}. Ne esiste solo uno per risparmiare memoria e un nodo con figli 
-\textbf{Nil} corrisponde ad una foglia nell'albero binario di ricerca.
+    \input{Pseudocodice/36_}
+    \columnbreak
+    I nodi \textbf{Nil} sono nodi sentinella il cui scopo \`e evitare di trattare diversamente i puntatori ai nodi dai puntatori \textbf{nil}. Al posto di un
+    puntatore \textbf{nil} si utilizza un puntatore ad un nodo speciale \textbf{Nil}. Ne esiste solo uno per risparmiare memoria e un nodo con figli
+    \textbf{Nil} corrisponde ad una foglia nell'albero binario di ricerca.
 \end{multicols}
 \subsubsection{Altezza nera}
 L'altezza nera $b(v)$ di un nodo $v$ \`e il numero di nodi neri lungo ogni percorso da $v$ escluso ad ogni foglia inclusa del sottoalbero. L'altezza nera di
 un albero red-black \`e pari all'altezza nera della sua radice. Quando esistono pi\`u colorazioni che rispettano i limiti possono esistere diverse altezze
-nere per lo stesso albero. 
+nere per lo stesso albero.
 \newpage
 \subsubsection{Inserimento}
-Quando si vuole inserire un nodo in un albero red-black si ricerca la posizione usando la stessa procedura per gli alberi di ricerca e si colora il nuovo 
-nodo di rosso. Si possono pertanto violare dei vincoli in questo modo e si rende necessario aggiungere nella funzione \emph{insertNode(Tree T, Item k, Item 
-v)} un processo di bilanciamento (eseguito successivamente alla chiamata della funzione \emph{link}). Il principio generale per il bilanciamento consiste 
+Quando si vuole inserire un nodo in un albero red-black si ricerca la posizione usando la stessa procedura per gli alberi di ricerca e si colora il nuovo
+nodo di rosso. Si possono pertanto violare dei vincoli in questo modo e si rende necessario aggiungere nella funzione \emph{insertNode(Tree T, Item k, Item
+    v)} un processo di bilanciamento (eseguito successivamente alla chiamata della funzione \emph{link}). Il principio generale per il bilanciamento consiste
 nel spostarsi verso l'alto lungo il percorso di inserimento, ripristinare il vincolo dei figli neri di un nodo rosso spostando le violazioni verso l'alto
 mantenendo l'altezza nera dell'albero e colorando la radice di nero alla fine. Queste operazioni sono necessarie unicamente quando due nodi consecutivi sono
-rossi. 
+rossi.
 \paragraph{\emph{balanceInsert(Tree t)}}
 I nodi coinvolti sono il nodo inserito $t$, suo padre $p$, suo nonno $n$ e suo zio $z$. E si possono verificare sette casi diversi in cui avviene una
 violazione.
 \begin{multicols}{2}
-\begin{itemize}
-\item Caso 1: il nuovo nodo $t$ non ha padre: \`e il primo nodo ad essere inserito o si \`e risaliti fino alla radice, si colora $t$ di nero.
-\item Caso 2: il padre $p$ di $t$ \`e nero: non si viola nessun vincolo.
-\item Caso 3: $t$ rosso, $p$ rosso, $z$ rosso: se $z$ \`e rosso si possono colorare di nero $p$, $z$ e di rosso $n$. Poich\`e tutti i cammini che passano 
-per $z$ e $p$ passano per $n$ l'altezza nera non \`e cambiata. Il problema ora potrebbe sussistere sul nonno, si pone pertanto $t=n$ e il ciclo continua.
-\item Caso 4a (4b): $t$ rosso, $p$ rosso, $z$ nero: si assuma che $t$ sia figlio destro (sinistro) di $p$ e $p$ figlio sinistro (destro) di $n$. Una 
-rotazione a sinistra (destra) a partire dal nodo $p$ scambia i ruoli di $t$ e $p$ ottenendo il caso 5a (5b) essendo entrambi i nodi coinvolti nel 
-cambiamento rossi, l'altezza nera non cambia.
-\item Caso 5a (5b): $t$ rosso, $p$ rosso, $z$ nero: si assuma che $t$ sia figlio sinistro (destro) di $p$ e $p$ figlio sinistro (destro) di $n$. Una 
-rotazione a destra su $n$ porta ad una situazione in cui $t$ e $n$ sono figli di $p$. Colorando $n$ di rosso e $p$ di nero ci si ritrova in una situazione
-in cui tutti i vincoli sono rispettati. 
-\end{itemize}
+    \begin{itemize}
+        \item Caso 1: il nuovo nodo $t$ non ha padre: \`e il primo nodo ad essere inserito o si \`e risaliti fino alla radice, si colora $t$ di nero.
+        \item Caso 2: il padre $p$ di $t$ \`e nero: non si viola nessun vincolo.
+        \item Caso 3: $t$ rosso, $p$ rosso, $z$ rosso: se $z$ \`e rosso si possono colorare di nero $p$, $z$ e di rosso $n$. Poich\`e tutti i cammini che passano
+              per $z$ e $p$ passano per $n$ l'altezza nera non \`e cambiata. Il problema ora potrebbe sussistere sul nonno, si pone pertanto $t=n$ e il ciclo continua.
+        \item Caso 4a (4b): $t$ rosso, $p$ rosso, $z$ nero: si assuma che $t$ sia figlio destro (sinistro) di $p$ e $p$ figlio sinistro (destro) di $n$. Una
+              rotazione a sinistra (destra) a partire dal nodo $p$ scambia i ruoli di $t$ e $p$ ottenendo il caso 5a (5b) essendo entrambi i nodi coinvolti nel
+              cambiamento rossi, l'altezza nera non cambia.
+        \item Caso 5a (5b): $t$ rosso, $p$ rosso, $z$ nero: si assuma che $t$ sia figlio sinistro (destro) di $p$ e $p$ figlio sinistro (destro) di $n$. Una
+              rotazione a destra su $n$ porta ad una situazione in cui $t$ e $n$ sono figli di $p$. Colorando $n$ di rosso e $p$ di nero ci si ritrova in una situazione
+              in cui tutti i vincoli sono rispettati.
+    \end{itemize}
 \end{multicols}
 \input{Pseudocodice/37_BalancedInsert}
 \newpage
 \paragraph{Complessit\`a}
 La complessit\`a totale per un inserimento \`e $O(\log n)$, con tre passaggi: $O(\log n)$ per scendere fino al punto di inserimento, $O(1)$ per effettuare
-l'inserimento e $O(\log n)$ per risalire e sistemare le violazioni. \`E possibile implementare un inserimento top-down che aggiusta l'albero mano a mano 
+l'inserimento e $O(\log n)$ per risalire e sistemare le violazioni. \`E possibile implementare un inserimento top-down che aggiusta l'albero mano a mano
 che scende fino al punto di inserimento.
 \subsubsection{Altezza albero red-black}
 \paragraph{Teorema}
 In un albero red-black un sottoalbero di radice $u$ contiene almeno $n\ge 2^{bh(u)}-1$ nodi interni.
 \subparagraph{Dimostrazione}
-Si dimostra per induzione sull'altezza (non sull'altezza nera). 
+Si dimostra per induzione sull'altezza (non sull'altezza nera).
 \begin{itemize}
-\item Caso base $h=0$: $u$ \`e una foglia \textbf{nil} e il sottoalbero con radice in $u$ contiene $n\ge 2^{bh(u)}-1= 2^0-1=0$ nodi interni.
-\item Passo induttivo $h>1$: allora $u$ \`e un nodo interno con due figli tali che ogni figlio $v$ ha un'altezza nera $bh(v)$ pari a $bh(u)$ se rosso o 
-a $bh(u)-1$ se nero. Per ipotesi induttiva ogni figlio ha almeno $2^{bh(u)}-1$ nodi interni. Pertanto il sottoalbero con radice in $u$ ha almeno $n\ge 
-2^{bh(u)-1}-1+2^{bh(u)-1}-1+1=2^{bh(u)-1}-1$ nodi.
+    \item Caso base $h=0$: $u$ \`e una foglia \textbf{nil} e il sottoalbero con radice in $u$ contiene $n\ge 2^{bh(u)}-1= 2^0-1=0$ nodi interni.
+    \item Passo induttivo $h>1$: allora $u$ \`e un nodo interno con due figli tali che ogni figlio $v$ ha un'altezza nera $bh(v)$ pari a $bh(u)$ se rosso o
+          a $bh(u)-1$ se nero. Per ipotesi induttiva ogni figlio ha almeno $2^{bh(u)}-1$ nodi interni. Pertanto il sottoalbero con radice in $u$ ha almeno $n\ge
+              2^{bh(u)-1}-1+2^{bh(u)-1}-1+1=2^{bh(u)-1}-1$ nodi.
 \end{itemize}
 \paragraph{Teorema}
 In un albero red-black almeno la met\`a dei nodi dalla radice ad una foglia deve essere nera.
 \subparagraph{Dimostrazione}
-Per il secondo vincolo se un nodo \`e rosso, entrambi i suoi figli devono essere neri, pertanto la situazione in cui sono presenti il maggior numero di nodi 
-rossi \`e il caso in cui rossi e neri sono alternati, dimostrando il teorema. 
+Per il secondo vincolo se un nodo \`e rosso, entrambi i suoi figli devono essere neri, pertanto la situazione in cui sono presenti il maggior numero di nodi
+rossi \`e il caso in cui rossi e neri sono alternati, dimostrando il teorema.
 \paragraph{Teorema}
 In un albero red-black nessun percorso da un nodo $v$ ad una foglia \`e lungo pi\`u del doppio del percorso da $v$ ad un'altra foglia.
 \subparagraph{Dimostrazione}
-Per definizione ogni percorso da un nodo ad una qualsiasi foglia contiene lo stesso numero di nodi neri. Dal lemma precedente almeno la met\`a di questi 
+Per definizione ogni percorso da un nodo ad una qualsiasi foglia contiene lo stesso numero di nodi neri. Dal lemma precedente almeno la met\`a di questi
 nodi sono neri, pertanto al limite uno dei due percorsi \`e costituito da soli nodi neri mentre l'altro \`e costituito da nodi neri e rossi alternati.
 \paragraph{Teorema}
 L'altezza massima di un albero red-black contenente $n$ nodi interni \`e al pi\`u $2\log(n+1)$.
 \subparagraph{Dimostrazione}
 \begin{align*}
-n\ge 2^{bh(r)}-1&\Leftrightarrow n\ge 2^{\frac{h}{2}}-1\\
-&\Leftrightarrow n+1\ge 2^{\frac{h}{2}}\\
-&\Leftrightarrow \log{n+1}\ge \frac{h}{2}\\
-&\Leftrightarrow h\le 2\log(n+1)
+    n\ge 2^{bh(r)}-1 & \Leftrightarrow n\ge 2^{\frac{h}{2}}-1   \\
+                     & \Leftrightarrow n+1\ge 2^{\frac{h}{2}}   \\
+                     & \Leftrightarrow \log{n+1}\ge \frac{h}{2} \\
+                     & \Leftrightarrow h\le 2\log(n+1)
 \end{align*}
 \subsubsection{Cancellazione}
 L'algoritmo di cancellazione per gli alberi red-black \`e costruito su quello di cancellazione per gli alberi generici. Dopo la cancellazione \`e necessario
 decidere se ribalanciare o meno. Le operazioni di ripristino sono necessarie solo dopo la cancellazione di un nodo nero in quando se il nodo cancellato \`e
-rosso l'altezza nera rimane invariata, non sono creati nodi rossi consecutivi e la radice resta nera. Se il nodo cancellato \`e nero si possono rompere i 
-vincoli uno, tre e quattro. L'algoritmo seguente ripristina i vincoli con rotazioni e cambiamenti di colore. Ci sono quattro casi possibili con i 
-corrispettivi simmetrici. 
+rosso l'altezza nera rimane invariata, non sono creati nodi rossi consecutivi e la radice resta nera. Se il nodo cancellato \`e nero si possono rompere i
+vincoli uno, tre e quattro. L'algoritmo seguente ripristina i vincoli con rotazioni e cambiamenti di colore. Ci sono quattro casi possibili con i
+corrispettivi simmetrici.
 \input{Pseudocodice/38_BalancedDelete}
 \paragraph{Complessit\`a}
 La cancellazione \`e concettualmente complicata ma efficiente in quanto dal caso 1 si passa al 2, 3 o 4, dal caso 2 si passa agli altri risalendo l'albero,

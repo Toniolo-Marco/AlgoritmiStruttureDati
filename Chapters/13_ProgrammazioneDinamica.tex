@@ -1,404 +1,410 @@
 \chapter{Programmazione dinamica}
-Si dice programmazione dinamica un metodo per dividere un problema ricorsivamente in sottoproblemi in modo che ogni sottoproblema venga risolto una volta sola e la sua soluzione venga memorizzata in
-una tabella. Se un sottoproblema deve essere risolto nuovamente si ottiene la sua soluzione dalla tabella (lookup in $O(1)$).
+	Si dice programmazione dinamica un metodo per dividere un problema ricorsivamente in sottoproblemi in modo che ogni sottoproblema venga risolto una volta sola e la sua soluzione venga memorizzata in
+	una tabella. Se un sottoproblema deve essere risolto nuovamente si ottiene la sua soluzione dalla tabella (lookup in $O(1)$).
 \section{Approccio generale}
-Se si parte da un problema di ottimizzazione si definisce la soluzione in maniera ricorsiva, successivamente si definisce il valore della soluzione in maniera ricorsiva (primo passo per problemi di conteggio). Se da
-qui non sono presenti sottoproblemi ripetuti si utilizza divide et impera; se sono presenti sottoproblemi ripetuti e bisogna risolverli tutti si utilizza la programmazione dinamica, se non devono essere risolti tutti
-si usa memoization. Dalla tabella delle soluzioni si ottiene l'output numerico o la ricostruzione della soluzione che permette di arrivare alla soluzione ottima. 
-\subsection{Evitare di risolvere i problemi pi\`u di una volta}
-Quando si risolve un problema si memorizza il risultato ottenuto in una tabella DP, che pu\`o essere un vettore, una matrice o un dizionario. La tabella deve contenere un elemento per ogni sottoproblema che
-deve essere risolto.
-\begin{itemize}
-\item Casi base: si memorizzano i casi base direttamente nella tabella.
-\item Iterazione bottom-up: si parte dai sottoproblemi che possono essere risolti direttamente a partire dai casi base, si sale verso problemi sempre pi\`u grandi fino a raggiungere il problema originale. 
-\end{itemize} 
-\subsection{Ricostruire la soluzione}
-Per ricostruire la soluzione si parte dalla definizione ricorsiva del problema, la dimensione di $n$ indica l'indice sulla tabella che si deve controllare e si definisce un controllo su quale delle chiamate ricorsive 
-viene realmente effettuata.
+	Se si parte da un problema di ottimizzazione si definisce la soluzione in maniera ricorsiva, successivamente si definisce il valore della soluzione in maniera ricorsiva (primo passo per problemi di conteggio). Se da
+	qui non sono presenti sottoproblemi ripetuti si utilizza divide et impera; se sono presenti sottoproblemi ripetuti e bisogna risolverli tutti si utilizza la programmazione dinamica, se non devono essere risolti tutti
+	si usa memoization. Dalla tabella delle soluzioni si ottiene l'output numerico o la ricostruzione della soluzione che permette di arrivare alla soluzione ottima. 
+	\subsection{Evitare di risolvere i problemi pi\`u di una volta}
+		Quando si risolve un problema si memorizza il risultato ottenuto in una tabella DP, che pu\`o essere un vettore, una matrice o un dizionario. La tabella deve contenere un elemento per ogni sottoproblema che
+		deve essere risolto.
+		\begin{itemize}
+		\item Casi base: si memorizzano i casi base direttamente nella tabella.
+		\item Iterazione bottom-up: si parte dai sottoproblemi che possono essere risolti direttamente a partire dai casi base, si sale verso problemi sempre pi\`u grandi fino a raggiungere il problema originale. 
+		\end{itemize} 
+	\subsection{Ricostruire la soluzione}
+		Per ricostruire la soluzione si parte dalla definizione ricorsiva del problema, la dimensione di $n$ indica l'indice sulla tabella che si deve controllare e si definisce un controllo su quale delle chiamate ricorsive 
+		viene realmente effettuata.
 \section{Memoization}
-Questa tecnica fonde l'approccio di memorizzazione della programmazione dinamica con quello top-down di divide-et-impera: si crea una tabella DP inizializzata con un valore speciale ad indicare che un certo 
-sottoproblema non \`e ancora stato risolto. Ogni volta che si deve risolvere un sottoproblema si controlla nella tabella se \`e gi\`a stato risolto precedentemente:
-\begin{itemize}
-\item gi\`a risolto: si utilizza il risultato della tabella.
-\item non risolto: si calcola il risultato e lo si memorizza
-\end{itemize}
-In questo modo ogni sottoproblema viene calcolato una sola volta e memorizzato come nella versione bottom-up. Questa tecnica presenta vantaggi quando invece di utilizzare una tabella si utilizza un dizionario 
-in quanto non \`e pi\`u necessario fare inizializzazione e il costo di esecuzione passa da $O(nC)$ a $O(\min(2^n, nC))$.
-\lstinputlisting[caption={Memoization automatica in Python}, language={python}]{Codice/MemoizationAutomatica.py}
+	Questa tecnica fonde l'approccio di memorizzazione della programmazione dinamica con quello top-down di divide-et-impera: si crea una tabella DP inizializzata con un valore speciale ad indicare che un certo 
+	sottoproblema non \`e ancora stato risolto. Ogni volta che si deve risolvere un sottoproblema si controlla nella tabella se \`e gi\`a stato risolto precedentemente:
+	\begin{itemize}
+		\item gi\`a risolto: si utilizza il risultato della tabella.
+		\item non risolto: si calcola il risultato e lo si memorizza
+	\end{itemize}
+	In questo modo ogni sottoproblema viene calcolato una sola volta e memorizzato come nella versione bottom-up. Questa tecnica presenta vantaggi quando invece di utilizzare una tabella si utilizza un dizionario 
+	in quanto non \`e pi\`u necessario fare inizializzazione e il costo di esecuzione passa da $O(nC)$ a $O(\min(2^n, nC))$.
+	\lstinputlisting[caption={Memoization automatica in Python}, language={python}]{Codice/MemoizationAutomatica.py}
 \section{Problemi}
-\subsection{Domino lineare}
-Il gioco del domino \`e basato su tessere di dimensione $2\times 1$. Si scriva un algoritmo efficiente che prenda in input un intero $n$ e restituisca il numero di possibili disposizioni $n$ di tessere in un 
-rettangolo $2\times n$.
-\subsubsection{Definizione ricorrenza}
-Si definisca una formula ricorsiva $DP[n]$ che permetta di calcolare il numero di disposizioni possibili quando si hanno $n$ tessere. Con $n=0$ esiste una sola disposizione possibile, con $n=1$ esiste ancora una
-sola disposizione possibile. Mettendo una tessera in verticale si risolve il problema di dimensione $n-1$, con una in orizzontale ne devo mettere due e risolvo il problema di dimensione $n-2$. Essendo un 
-problema di conteggio queste due possibilit\`a si sommano insieme:
-$$
-DP[n]=
-\begin{cases}
-1\quad & n\le 1\\
-DP[n-2] + DP[n-1]& n>1
-\end{cases}
-$$
-Si noti come $DP[n]$ \`e pari al $n+1$-esimo numero della serie di Fibonacci. 
-\subsubsection{Algoritmo ricorsivo}
-\input{Pseudocodice/94_Domino}
-\paragraph{Complessit\`a}
-L'equazione di ricorrenza associata \`e:
-$$
-T(n)=
-\begin{cases}
-1\quad & n\le 1\\
-T(n-2) + T(n-1) + 1& n>1
-\end{cases}
-$$
-Che utilizzando il master theorem per la ricorrenza lineare di ordine costante si ottiene una complessit\`a pari a $T(n)=\Theta(2^n)$.
-\subsubsection{Algoritmo iterativo}
-\input{Pseudocodice/95_Domino}
-\paragraph{Complessit\`a}
-Ha complessit\`a temporale $T(n)=\Theta(n)$ e spaziale $S(n)=\Theta(n)$.
-\paragraph{Miglioramento}
-Si pu\`o rendere con complessit\`a spaziale costante $S(n)=\Theta(1)$.
-\input{Pseudocodice/96_Domino}
-\subsection{Hateville}
-Hateville \`e un villaggio composto da $n$ case numerate da $1$ a $n$ lungo una singola strada. Ad Hateville ognuno odia i propri vicini da entrambi i lati. Si vuole organizzare una sagra e si rende necessario
-raccogliere i fondi. Ogni abitante ha intenzione di donare una quantit\`a $D[i]$, ma non intende partecipare ad una raccolta fondi a cui partecipano uno o entrambi i propri vicini. Si scriva un algoritmo che 
-restituisca la quantit\`a massima di fondi che pu\`o essere raccolta e un algoritmo che restituisca il sottoinsieme di indici $S\subseteq\{1, \dots, n\}$ tale per cui la donazione totale $T=\sum\limits_{i\in S}D[i]$
-\`e massimale.
-\subsubsection{Definizione ricorsiva}
-Sia $HV(i)$ uno di possibili insiemi di indici da selezionare per ottenere una donazione ottimale delle prime $i$ case di Hateville numerate $1\dots n$. $HV(n)$ \`e la soluzione del problema originale. 
-Considerando vicino $i$-esimo si deve considerare se non accettare la sua donazione ($HV(i)=HV(i-1)$) o accettarla ($HV(i) = \{i\}\cup HV(i-2)$) e prendere il risultato massimo. 
-\subsubsection{Sottostruttura ottima}
-Sia $HV_p(i)$ il problema dato dalle prime $i$ case e $HV_s(i)$ una soluzione ottima per il problema $HV_p(i)$ e $|HV_s(i)|$ il totale di donazioni di $HV_s(i)$ ne consegue:
-\begin{itemize}
-\item Se $i\not\in HV_s(i)$ allora $HV_s(i) = HV_s(i-1)$.
-\item Se $i\in HV_s(i)$ allora $HV_s(i) = HV_s(i-2)\cup\{i\}$.
-\end{itemize}
-\paragraph{Dimostrazione}
-\subparagraph{$\mathbf{i\not\in HV_s(i)}$}
-$HV_s(i)$ \`e una soluzione ottima anche per $HV_p(i-1)$, se cos\`i non fosse esisterebbe una soluzione $HV'_s(i-1)$ per il problema $HV_p(i)$ tale che $|HV'_s(i-1)|>|HV_s(i)|$, ma allora $HV'_S(i-1)$ sarebbe 
-una soluzione per $HV_p(i)$ tale che $|HV'_s(i-1)|>|HV_s(i)|$, assurdo.
-\subparagraph{$\mathbf{i\in HV_s(i)}$}
-$i-1\not\in HV_s(i)$, altrimenti non sarebbe una soluzione ammissibile, pertanto $HV_s(i)-\{i\}$ \`e una soluzione ottima per $HV_p(i-2)$ per il problema $HV_p(i-2)$ tale che $|HV'_s(i-2)|>|HV_s(i)-\{i\}|$, allora
-$HV'_s(i-2)\cap\{i\}$ sarebbe una soluzione per $HV_p(i)$ tale che $|HV'_s(i-2)\cup\{i\}|>|HV_s(i)|$, assurdo.
-\paragraph{Determinare la ricorsione}
-$$
-HV(i)=
-\begin{cases}
-\emptyset\quad& i=0\\
-\{1\} & i=1\\
-highest(HV(i-1), HV(i-2)\cup\{i\}) & i\ge 2
-\end{cases}
-$$
-\paragraph{Tabella DP}
-Sia $DP[i]$ il valore della massima quantit\`a di donazioni che si possono ottenere dalle prime $i$ case di Hateville. $DP[n]$ \`e il valore della soluzione ottima.
-$$
-DP[i]=
-\begin{cases}
-0 \quad& i=0\\
-D[1] & i=1\\
-\max(DP[i-1], DP[i-2]+D[i]) & i\ge 2
-\end{cases}
-$$
-\subsubsection{Algoritmo iterativo}
-\input{Pseudocodice/97_Hateville}
-\subsubsection{Ricostruire la soluzione originale}
-Considerando l'elemento $DP[i]$ il suo valore pu\`o essere derivato considerando:
-\begin{itemize}
-\item Se $DP[i]=DP[i-1]$ la casa $i$ non \`e stata selezionata.
-\item Se $DP[i]=DP[i-2]+D[i]$ la casa $i$ \`e stata selezionata.
-\end{itemize}
-Si utilizza questa informazione per ricostruire la soluzione in modo ricorsivo: per costruire la soluzione fino a $i$ si ricostruisce la soluzione fino a $i-2$ e si aggiunge $i$ o si ricostruisce la soluzione fino a $i-1$ 
-senza aggiungere nulla.\\
-\input{Pseudocodice/98_Solution}
-\subsubsection{Complessit\`a computazionale}
-La complessit\`a computazionale di \emph{solution()} \`e $T(n)=\Theta(n)$, quella computazionale e spaziale di \emph{hateville()} \`e $T(n)=\Theta(n)$ e $S(n)=\Theta(n)$. Questa soluzione non si pu\`o 
-migliorare se si vuole ricostruire la soluzione.
-\subsection{Knapsack}
-Dato un insieme di oggetti, ognuno caratterizzato da un peso e da un profitto e uno zaino con un limite di capacit\`a trovare un sottoinsieme di oggetti il 
-cui peso sia inferiore alla capacit\`a dello zaino e il profitto sia massimale, ovvero maggiore o uguale di qualunque altro sottoinsieme di oggetti. 
-\subsubsection{Caratterizzazione}
-\paragraph{Input}
-\begin{itemize}
-\item Un vettore $w$, dove $w[i]$ \`e il peso dell'oggetto $i$-esimo.
-\item Un vettore $p$, dove $p[i]$ \`e il profitto dell'oggetto $i$-esimo.
-\item La capacit\`a $C$ dello zaino.
-\end{itemize}
-\paragraph{Output}
-Un insieme $S\subseteq\{1,\dots, n\}$ tale che il volume totale deve essere minore uguale alla capacit\`a: $w(S)\sum\limits_{i\in S}w[i]<C$ e il profitto
-totale sia massimizzato: $p(S)=\sum\limits_{i\in S}p[i]$.
-\subsubsection{Definizione matematica del valore della soluzione}
-Dato uno zaino di capacit\`a $C$ e $n$ oggetti caratterizzati da peso $w$ e profitto $p$ si definisce $DP[i][c]$ il massimo profitto che pu\`o essere 
-ottenuto dai primi $i\le n$ oggetti contenuti in uno zaino di capacit\`a $c\le C$. Il massimo profitto ottenibile dal problema originale \`e rappresentato
-da $DP[n][C]$.
-\paragraph{Parte ricorsiva}
-Considerando l'ultimo oggetto lo si pu\`o non prendere: $DP[i][c]=DP[i-1][c]$, ovvero la capacit\`a non cambia e non c'\`e profitto; se invece lo prendo
-$DP[i][c]=DP[i-1][c-w[i]]+p[i]$, ovvero si sottrae il peso alla capacit\`a e si aggiunge il profitto relativo. La scelta della soluzione migliore \`e:
-$$DP[i][c] = \max(DP[i-1][c], DP[i-1][c-w[i]]+p[i])$$
-\paragraph{Casi base}
-Il profitto massimo in caso di assenza di oggetti o di capacit\`a \`e $0$, se invece si ha capacit\`a negativa vale $-\infty$. 
-\paragraph{Formula completa}
-$$
-DP[i][c] =
-\begin{cases}
-0\quad & i = 0 \lor c = 0\\
--\infty & c<0\\
-\max(DP[i-1][c], DP[i-1][c-w[i]]+p[i]) & altrimenti
-\end{cases}
-$$
-\subsubsection{Pseudocodice}
-\input{Pseudocodice/99_KnapSack}
-\subsubsection{Complessit\`a computazionale}
-La complessit\`a della funzione \emph{knapsack()} \`e $T(n) = O(nC)$, una complessit\`a pseudo-polinomiale in quanto sono necessari $k = \log C$ bit per 
-rappresentare $C$ e pertanto la complessit\`a \`e $T(n) = O(n2^k)$.
-\subsubsection{Implementazione con memoization}
-Si nota come non tutti gli elementi della matrice sono necessari alla soluzione del problema. Risulta vantaggioso pertanto utilizzare la tecnica di 
-memoization, in cui la tabella viene inizializzata esternamente in una funzione wrapper e il valore $-1$ viene utilizzato per identificare il valore di
-una cella non calcolata. \\
-\input{Pseudocodice/100_Knapsack_con_memoization}
-\subsection{Knapsack senza limiti}
-Dato uno zaino di capacit\`a $C$ e $n$ oggetti caratterizzati da peso $w$ e profitto $p$ si definisce $DP[i][c]$ come il massimo profitto che pu\`o essere
-ottenuto dai primi $i\le n$ oggetti contenuti in uno zaino di capacit\`a $c\le C$ senza porre limiti al numero di volte che un oggetto pu\`o essere 
-selezionato. Si modifica pertanto la funzione ricorsiva come:
-$$
-DP[i][c] =
-\begin{cases}
-0\quad & i = 0 \lor c = 0\\
--\infty & c<0\\
-\max(DP[i-1][c], DP[i][c-w[i]]+p[i]) & altrimenti
-\end{cases}
-$$
-In questo modo \`e possibile semplificare la soluzione riducendo lo spazio occupato: si definisce $DP[c]$ il massimo profitto che pu\`o essere ottenuto
-da tali oggetti in uno zaino di capacit\`a $c\le C$. 
-$$
-DP[c] =
-\begin{cases}
-0\quad & c = 0\\
-\max\limits_{w[i]<c}\{DP[c-w[i]]+p[i]\} &  c > 0
-\end{cases}
-$$
-\subsubsection{Implementazione tramite memoization}
-\input{Pseudocodice/101_Knapsack_senza_limiti_con_memoization}
-Attraverso questo algoritmo non \`e detto che tutti gli elementi debbano essere riempiti e la complessit\`a in spazio \`e $\Theta(C)$.
-\subsubsection{Ricostruire la soluzione}
-Questo approccio rende pi\`u difficile ricostruire la soluzione: si possono ispezionare tutti gli elementi per capire da dove deriva il massimo, ma 
-risulta pi\`u semplice memorizzare l'indice da cui deriva il massimo. 
-\paragraph{Implementazione tramite memoization}\mbox{}\\
-\input{Pseudocodice/102_Knapsack_senza_limiti_con_memoization}
-Restituisce una lista di indici selezionati, se $c=0$ lo zaino \`e stato riempito perfettamente, se $pos[c]<0$ lo zaino non pu\`o essere riempito 
-interamente.
-\subsection{Sottosequenza comune massimale}
-\paragraph{Sottosequenza}
-Si definisce una sequenza $P$ come sottosequenza di $T$ se $P$ \`e ottenuto da $T$ rimuovendo uno o pi\`u dei suoi elementi o come il sottoinsieme di indici
-$\{1, \dots, n\}$ degli elementi di $T$ che compaiono anche in $P$. I rimanenti elementi sono indicati in ordine senza essere necessariamente contigui. La
-sottosequenza vuota $\emptyset$ \`e sottosequenza di qualsiasi altra sottosequenza. 
-\paragraph{Sottosequenza comune}
-Una sottosequenza $X$ \`e detta sottosequenza comune di due sequenze $T$ e $U$ se \`e sottosequenza sia di $T$ che di $U$: $X\in \mathcal{CS}(T, U)$.
-\paragraph{Sottosequenza comune massimale}
-Una sequenza $X\in \mathcal{CS}(T, U)$ \`e una sottosequenza comune massimale di due sequenze $T$ e $U$ se non esiste altra sottosequenza comune $Y\in 
-\mathcal{CS}(T, U)$ tale che $Y$ sia pi\`u lunga di $X$, si scrive: $X\in \mathcal{LCS}(T, U)$.
-\subsubsection{Definizione del problema}
-Date due sequenze $T$ e $U$ si trovi la pi\`u lunga sottosequenza comune di $T$ e $U$. 
-\subsubsection{Soluzione di forza bruta}
-\input{Pseudocodice/103_LCS}
-Si noti come data una sottosequenza lunga $n$, le sue sottosequenze sono $2^n$ e verificare che una sequenza \`e sottosequenza di un'altra sottosequenza
-\`e $O(m+n)$, la complessit\`a computazionale dell'algoritmo sopra \`e pertanto $\Theta(2^n(m+n))$. 
-\subsubsection{Descrizione matematica della soluzione ottima}
-Data una sequenza $T$ composta da caratteri $t_1\dots t_n$, $T(i)$ denota il prefisso di $T$ dato dai primi caratteri. L'obiettivo \`e, date due sequenze
-$T$ e $U$ di lunghezza $n$ e $m$, di scrivere una formula ricorsiva $LCS(T(i), U(i))$ che restituisa la LCS dei prefissi $T(i)$ e $U(i)$. 
-\paragraph{Casi ricorsivi}
-\subparagraph{Primo caso}
-Si considerino due prefissi $T(i)$ e $U(j)$ tali per cui l'ultimo carattere coincide, $t_i = u_j$ allora: 
-$$LCS(T(i), U(j)) = LCS(T(i - 1), U(j - 1))\oplus t_i$$
-\subparagraph{Secondo caso}
-Si considerino due prefissi $T(i)$ e $U(j)$ tali per cui l'ultimo carattere non coincide, $t_i \neq u_j$ allora: 
-$$LCS(T(i), U(j)) = longest(LCS(T(i - 1), U(j)), LCS(T(i), U(j - 1)))$$
-\paragraph{Casi base}
-La sottosequenza pi\`u lunga quando una delle due sequenze \`e vuota, ovvero $i = 0$ o $j = 0$ \`e la sequenza vuota. 
-\paragraph{Soluzione completa}
-$$
-LCS(T(i), U(j)) = 
-\begin{cases}
-\emptyset & i = 0 \lor j = 0\\
-LCS(T(i - 1), U(j - 1))\oplus t_i & i > 0 \land j > 0 \land t_i = u_j\\
-longest(LCS(T(i - 1), U(j)), LCS(T(i), U(j - 1))) & i > 0 \land j > 0 \land t_i \neq u_j
-\end{cases}
-$$
-\subsubsection{Sottostruttura ottima}
-Date le due sequenze $T=(t_1, \dots t_n)$ e $U=(u_1, \dots, u_m)$ e $X=(x_1, \dots x_k)$ una LCS di $T$ e $U$. Sono dati tre casi:
-\begin{center}
-\begin{tabular}{c c c c}
-1. & $t_n = u_m$ & $\Rightarrow$ & $x_k = t_n = u_m$ $\land$ $X(k-1)\in\mathcal{LCS}(T(n-1), U(m-1))$\\
-2. & $t_n\neq u_m\land x_k\neq t_n$ & $\Rightarrow$ & $X\in \mathcal{LCS}(T(n-1), U(m))$\\
-3. & $t_n\neq u_m\land x_k\neq u_m$ & $\Rightarrow$ & $X\in \mathcal{LCS}(T(n), U(m-1))$\\
-\end{tabular}
-\end{center}
-\paragraph{Dimostrazione primo caso}
-\subparagraph{Prima parte}
-$$t_n = u_m \Rightarrow x_k = t_n = u_m$$
-Si consideri per assurdo $x_k \neq t_n = u_m$. Si consideri ora $Y= X\oplus t_n$, allora $Y\in\mathcal{CS}(T, U)$ e $|Y|>|X|$, che \`e una contraddizione.
-\subparagraph{Seconda parte}
-$$t_n = u_m \Rightarrow X(k-1)\in\mathcal{LCS}(T(n-1), U(m-1))$$
-Si consideri per assurdo $X(k-1)\not\in\mathcal{LCS}(T(n-1), U(m-1))$, allora $\exists Y\in\mathcal{LCS}(T(n-1), U(m-1))$ tale che $|Y|>|X(k-1)|$, pertanto
-$Y\oplus t_n\in\mathcal{CS}(T, U)$ e $|Y\oplus t_n|>|X(k-1)\oplus t_n|=X$, che \`e una contraddizione. 
-\paragraph{Dimostrazione secondo caso (terzo simmetrico)}
-$$t_n\neq u_m\land x_k\neq t_n \Rightarrow X\in \mathcal{LCS}(T(n-1), U(m))$$
-Si consideri per assurdo $X\not\in \mathcal{LCS}(T(n-1), U(m))$, allora $\exists Y\in\mathcal{LCS}(T(n-1), U(m))$ tale che $|Y|>|X|$, pertanto \`e anche
-vero che $Y\in \mathcal{LCS}(T, U)$, pertanto $X$ non \`e $\mathcal{LCS}(T, U)$, che \`e un assurdo. 
-\subsubsection{Ricorrenza per il valore della soluzione ottimale}
-Date due sequenze $T$ e $U$ di lunghezza $n$ e $m$ si scriva una formula ricorsiva $DP[i][j]$ che restituisca la lunghezza della $\mathcal{LCS}$ dei 
-prefissi $T(i)$ e $U(j)$.
-$$
-DP[i][j] = 
-\begin{cases}
-0 & i = 0\lor j = 0\\
-DP[i-1][j-1]+1 & i > 0 \land j > 0 \land t_i = u_j\\
-\max(DP[i - 1][j], DP[i][j - 1]) & i > 0 \land j > 0 \land t_i \neq u_j
-\end{cases}
-$$ 
-$DP[n][m]$ contiene la lunghezza della $\mathcal{LCS}$ del probema originale. \\
-\input{Pseudocodice/104_LCS}
-\subsubsection{Ricostruire la sottosequenza comune}
-\input{Pseudocodice/105_}
-La complessit\`a computazionale di \emph{subsequence()} \`e $O(m+n)$, mentre quella di LCS \`e $O(mn)$. 
-\subsection{String matching approssimato}
-\subsubsection{Definizione}
-Si dice un'occorrenza k-approssimata di $P$ in $T$, dove $P=p_1\dots p_m$ \`e una stringa detta pattern, $T=t_1\dots t_n$ \`e una stringa detta testo con $m\le n$, una copia di $P$ in 
-$T$ in cui sono ammessi $k$ differenze tra caratteri di $P$ e caratteri di $T$ del tipo:
-\begin{itemize}
-	\item I corrispondenti caratteri in $P$, $T$ sono diversi (sostituzione).
-	\item Un carattere in $P$ non \`e incluso in $T$ (inserimento).
-	\item Un carattere in $T$ non \`e incluso in $P$ (cancellazione).
-\end{itemize}
-\subsubsection{Problema}
-Il problema \`e trovare un'occorrenza $k$-approssimata di $P$ in $T$ con $k$ minimo ($0\le k \le m$).
-\subsubsection{Sottostruttura ottima}
-Sia $DP[0\dots m][0\dots n]$ una tabella di programmazione dinamica tale che $DP[i][j]$ sia il minimo valore $k$ per cui esiste un'occorrenza $k$-approssimata di $P(i)$ in $T(j)$ che
-termina nella posizione $j$. Si hanno quattro possibilit\`a:
-\begin{itemize}
-	\item $DP[i-1][j-1]$ se $P[i]=T[j]$.
-	\item $DP[i-1][j-1]+1$ se $P[i]\neq T[j]$ per la sostituzione.
-	\item $DP[i-1][j]+1$ per l'inserimento.
-	\item $DP[i][j-1]+1$ per la cancellazione.
-\end{itemize}
-$$DP[i][j] =
-\begin{cases}
-	0 & i = 0\\
-	i & j = 0\\
-\begin{split}
-	\min\{\	& DP[i-1][j-1]+\delta, \quad\quad \delta = iif(P[i]=T[j], 0, 1)\\
-		& DP[i-1][j]+1, \\
-		& DP[i][j-1]+1\} \\
-\end{split}& altrimenti\\
-\end{cases}$$
-\subsubsection{Ricostruzione della soluzione finale}
-$DP[m][j] = k$ se e solo se esiste un'occorrenza k-approssimata di $P$ in $T(j)$ che termina nella posizione $j$. La soluzione del problema \`e data dal pi\`u piccolo valore  $DP[m][j]$ 
-per $0\le j\le n$. Si noti pertanto come la soluzione del problema non si trova nella casella ``in basso a destra" ma vada essa stessa ricercata nella tabella $DP$.
-\subsubsection{Algoritmo}
-\input{Pseudocodice/106_StringMatching}
-\subsection{Prodotto di catena di matrici}
-\subsubsection{Problema}
-Data una sequenza $n$ di matrici $A_1, \dots, A_n$ compatibili due a due al prodotto, si vuole calcolare il loro prodotto. Si noti come il prodotto di 
-matrici non sia commutativo ma associativo. Notando come il prodotto di matrici si basa sulla moltiplicazione scalare come operazione elementare si vuole
-calcolare il prodotto delle $n$ matrici impiegando il minor numero possibile di moltiplicazioni scalari. 
-\subsubsection{Parentesizzazione}
-La parentesizzazione $P_{i, j}$ del prodotto $A_i\cdot A_{i+1}\cdots A_j$ \`e la matrice $A_i$ se $i=j$, il prodotto di due parentesizzazioni $(P_{i,k}
-\cdot P_{k+1, j})$ altrimenti. 
-\paragraph{Parentesizzazione ottima}
-La parentesizzazione che richiede il minor numero di moltiplicazioni scalari per essere completata fra tutte le parentesizzazioni possibili si dice 
-ottima. Vale la pena preprocessare i dati per cercare la parentesizzazione migliore per risparmiare tempo nel calcolo vero e proprio. Detto $P(n)$ il
-numero di parentesizzazioni per $n$ matrici $A_1\cdot\cdots\cdot A_n$ l'ultimo prodotto pu\`o occorrere in $n-1$ posizioni diverse. Pertanto fissato 
-l'indice $k$ dell'ultimo prodotto si hanno: $P(k)$ parentesizzazioni per $A_1\cdot\cdots\cdot A_k$ e $P(n-k)$ parentesizzazioni per  $A_{k+1}\cdot\cdots
-\cdot A_n$. Pertanto.
-$$P(n) = 
-\begin{cases}
-	1 & n =1 \\
-	\sum\limits_{i = 1}^{n-1} P(k)P(n-k) & n > 1\\
-\end{cases}$$
-\subparagraph{Numero di Catalan}
-$$P(n+1) = C(n) = \dfrac{1}{n+1}\binom{2n}{n} = \dfrac{(2n)!}{(n+1)!n!} = \Omega\biggl(\dfrac{4^n}{n^{\frac{3}{2}}}\biggr)$$
-In matematica $C(n)$ indica il numero di modi in cui un poligono convesso con $n+2$ lati pu\`o essere suddiviso in triangoli. Si pu\`o mostrare facilmente
-come $P(n)=\Omega(2^n)$. 
-\subsubsection{Lista di definizioni matematiche}
-\begin{itemize}
-	\item $A_1\cdot\cdots\cdot A_n$ \`e il prodotto di $n$ matrici da ottimizzare.
-	\item $c_{i-1}$ \`e il numero di righe della matrice $A_i$.
-	\item $c_i$ \`e il numero di colonne della matrice $A_i$.
-	\item $A[i\dots j]$ \`e il sottoprodotto $A_i\cdot A_{i+1}\cdot\cdots\cdot A_j$.
-	\item $P[i\dots j]$ \`e una parentesizzazione per $A[i\dots j]$, non necessariamente ottima. 
-\end{itemize}
-\subsubsection{Struttura di una parentesizzazione ottima}
-Sia $A[i\dots j]$ una sottosequenza del prodotto di matrici e si consideri una parentesizzazione ottima $P[i\dots j]$ di $A[i\dots j]$. Esiste un ultimo
-prodotto: un indice $k$ tale che $P[i\dots j] = P[i\dots k]\cdot P[k+1\dots j]$.
-\paragraph{Teorema della sottostruttura ottima}
-\subparagraph{Enunciato}
-Se $P[i\dots j]=P[i\dots k]\cdot P[k+1\dots j]$ \`e una parentesizzazione ottima del prodotto $A[i\dots j]$ allora $P[i\dots k]$ \`e una parentesizzazione
-ottima del prodotto $A[i\dots k]$ e $P[k+1\dots j]$ \`e una parentesizzazione ottima del prodotto $A[k+1\dots j]$. 
-\subparagraph{Dimostrazione}
-Si supponga che esista una parentesizzazione ottima $P'[i\dots k]$ di $A[i\dots k]$ con costo inferiore a $P[i\dots k]$. Allora $P'[i\dots k]\cdot 
-P[k+1\dots j]$ sarebbe una parentesizzazione di $A[i\dots j]$ con costo inferiore a $P[i\dots j]$, che \`e un assurdo. 
-\subsubsection{Valore della soluzione ottima}
-Sia $DP[i][j]$ il minimo numero di moltiplicazioni scalari necessarie per calcolare il prodotto $A[i\dots j]$. 
-\begin{itemize}
-	\item Caso base $i=j$. Allora $DP[i][j]=0$.
-	\item Passo ricorsivo: $i<j$ esiste una parentesizzazione ottima $$P[i\dots j] = P[i\dots k]\cdot P[k+1\dots j]$$ Sfruttando la ricorsione 
-		$$DP[i][j] = DP[i][k]+DP[k+1][j]+c_{i-1}\cdot c_k\cdot c_j$$
-\end{itemize}
-Considerando $c_{i-1}\cdot c_k\cdot c_j$ il costo per moltiplicare la matrice $A_i\cdot\cdots\cdot A_k$: $c_{i-1}$ righe, $c_k$ colonne e la matrice $A_{k+1}\cdot\cdots\cdot A_j$:
-$c_k$ righe, $c_j$ colonne. Non si conosce il valore di $k$ si devono provare tutti i valori che pu\`o assumere, tra $i$ e $j-1$:
-$$DP[i][j] = \begin{cases}
-	0 & i = j\\
-	\min\limits_{i\le k < j}\{DP[i][k]+DP[k+1][j]+c_{i-1}\cdot c_k\cdot c_j\} & i < j\\
-\end{cases}$$
-\subsubsection{Implementazione}
-\paragraph{Input}
-L'algoritmo riceve in input un vettore $c[0\dots n]$ contenente le dimensioni delle matrici, dove $c[0]$ \`e il numero di righe della prima matrice. $c[i-1]$ \`e il numero di righe 
-della matrice $A_i$ e $c[i]$ \`e il numero di colonne della matrice $A_i$ e due indici $i$ e $j$ che rappresentano l'intervallo di matrici da moltiplicare. 
-\paragraph{Output}
-Il numero di moltiplicazioni scalari per calcolare il prodotto delle matrici comprese tra gli indici $i$ e $j$.
-\paragraph{Approccio ricorsivo}\mbox{}\\
-\input{Pseudocodice/107_RecPar}
-\subparagraph{Valutazione}
-La soluzione ricorsiva top-down \`e $\Omega(2^n)$. Il problema \`e che i sottoproblemi che sono $\frac{n(n+1)}{2}$ vengono risolti pi\`u volte.
-\paragraph{Versione bottom-up}
-Si creino due tabelle di programmazione dinamica, due matrici $DP$ e $last$ di dimensione $n\times n$ tali che $DP[i][j]$ contiene il numero di moltiplicazioni scalari necessarie per 
-moltiplicare le matrici $A[i\dots j]$ e $last[i][j]$ contiene il valore $k$ dell'ultimo prodotto che minimizza il costo del sottoproblema.\\
-\input{Pseudocodice/108_ComputePar}
-\subparagraph{Valutazioni}
-Il costo computazionale \`e $O(n^3)$, in quanto ogni cella richiede tempo $O(n)$ per essere riempita. Il costo della funzione si trova nella posizione $DP[1][n]$. \`E anche necessario
-mostrare la soluzione trovata, motivo per cui si salvano le informazioni nella matrice last.\\ 
-\input{Pseudocodice/109_Ricostruzione_della_soluzione_-_Stampa}
+	\subsection{Domino lineare}
+		Il gioco del domino \`e basato su tessere di dimensione $2\times 1$. Si scriva un algoritmo efficiente che prenda in input un intero $n$ e restituisca il numero di possibili disposizioni $n$ di tessere in un 
+		rettangolo $2\times n$.
+		\subsubsection{Definizione ricorrenza}
+			Si definisca una formula ricorsiva $DP[n]$ che permetta di calcolare il numero di disposizioni possibili quando si hanno $n$ tessere. Con $n=0$ esiste una sola disposizione possibile, con $n=1$ esiste ancora una
+			sola disposizione possibile. Mettendo una tessera in verticale si risolve il problema di dimensione $n-1$, con una in orizzontale ne devo mettere due e risolvo il problema di dimensione $n-2$. Essendo un 
+			problema di conteggio queste due possibilit\`a si sommano insieme:
+			$$
+			DP[n]=
+			\begin{cases}
+			1\quad & n\le 1\\
+			DP[n-2] + DP[n-1]& n>1
+			\end{cases}
+			$$
+			Si noti come $DP[n]$ \`e pari al $n+1$-esimo numero della serie di Fibonacci. 
+		\subsubsection{Algoritmo ricorsivo}
+			\input{Pseudocodice/94_Domino}
+			\paragraph{Complessit\`a}
+			L'equazione di ricorrenza associata \`e:
+			$$
+			T(n)=
+			\begin{cases}
+			1\quad & n\le 1\\
+			T(n-2) + T(n-1) + 1& n>1
+			\end{cases}
+			$$
+			Che utilizzando il master theorem per la ricorrenza lineare di ordine costante si ottiene una complessit\`a pari a $T(n)=\Theta(2^n)$.
+		\subsubsection{Algoritmo iterativo}
+			\input{Pseudocodice/95_Domino}
+			\paragraph{Complessit\`a}
+			Ha complessit\`a temporale $T(n)=\Theta(n)$ e spaziale $S(n)=\Theta(n)$.
+			\paragraph{Miglioramento}
+			Si pu\`o rendere con complessit\`a spaziale costante $S(n)=\Theta(1)$.
+			\input{Pseudocodice/96_Domino}
+			
+	\subsection{Hateville}
+		Hateville \`e un villaggio composto da $n$ case numerate da $1$ a $n$ lungo una singola strada. Ad Hateville ognuno odia i propri vicini da entrambi i lati. Si vuole organizzare una sagra e si rende necessario
+		raccogliere i fondi. Ogni abitante ha intenzione di donare una quantit\`a $D[i]$, ma non intende partecipare ad una raccolta fondi a cui partecipano uno o entrambi i propri vicini. Si scriva un algoritmo che 
+		restituisca la quantit\`a massima di fondi che pu\`o essere raccolta e un algoritmo che restituisca il sottoinsieme di indici $S\subseteq\{1, \dots, n\}$ tale per cui la donazione totale $T=\sum\limits_{i\in S}D[i]$
+		\`e massimale.
+		\subsubsection{Definizione ricorsiva}
+			Sia $HV(i)$ uno di possibili insiemi di indici da selezionare per ottenere una donazione ottimale delle prime $i$ case di Hateville numerate $1\dots n$. $HV(n)$ \`e la soluzione del problema originale. 
+			Considerando vicino $i$-esimo si deve considerare se non accettare la sua donazione ($HV(i)=HV(i-1)$) o accettarla ($HV(i) = \{i\}\cup HV(i-2)$) e prendere il risultato massimo. 
+		\subsubsection{Sottostruttura ottima}
+			Sia $HV_p(i)$ il problema dato dalle prime $i$ case e $HV_s(i)$ una soluzione ottima per il problema $HV_p(i)$ e $|HV_s(i)|$ il totale di donazioni di $HV_s(i)$ ne consegue:
+			\begin{itemize}
+			\item Se $i\not\in HV_s(i)$ allora $HV_s(i) = HV_s(i-1)$.
+			\item Se $i\in HV_s(i)$ allora $HV_s(i) = HV_s(i-2)\cup\{i\}$.
+			\end{itemize}
+			\paragraph{Dimostrazione}
+			\subparagraph{$\mathbf{i\not\in HV_s(i)}$}
+			$HV_s(i)$ \`e una soluzione ottima anche per $HV_p(i-1)$, se cos\`i non fosse esisterebbe una soluzione $HV'_s(i-1)$ per il problema $HV_p(i)$ tale che $|HV'_s(i-1)|>|HV_s(i)|$, ma allora $HV'_S(i-1)$ sarebbe 
+			una soluzione per $HV_p(i)$ tale che $|HV'_s(i-1)|>|HV_s(i)|$, assurdo.
+			\subparagraph{$\mathbf{i\in HV_s(i)}$}
+			$i-1\not\in HV_s(i)$, altrimenti non sarebbe una soluzione ammissibile, pertanto $HV_s(i)-\{i\}$ \`e una soluzione ottima per $HV_p(i-2)$ per il problema $HV_p(i-2)$ tale che $|HV'_s(i-2)|>|HV_s(i)-\{i\}|$, allora
+			$HV'_s(i-2)\cap\{i\}$ sarebbe una soluzione per $HV_p(i)$ tale che $|HV'_s(i-2)\cup\{i\}|>|HV_s(i)|$, assurdo.
+			\paragraph{Determinare la ricorsione}
+			$$
+			HV(i)=
+			\begin{cases}
+			\emptyset\quad& i=0\\
+			\{1\} & i=1\\
+			highest(HV(i-1), HV(i-2)\cup\{i\}) & i\ge 2
+			\end{cases}
+			$$
+			\paragraph{Tabella DP}
+			Sia $DP[i]$ il valore della massima quantit\`a di donazioni che si possono ottenere dalle prime $i$ case di Hateville. $DP[n]$ \`e il valore della soluzione ottima.
+			$$
+			DP[i]=
+			\begin{cases}
+			0 \quad& i=0\\
+			D[1] & i=1\\
+			\max(DP[i-1], DP[i-2]+D[i]) & i\ge 2
+			\end{cases}
+			$$
+		\subsubsection{Algoritmo iterativo}
+			\input{Pseudocodice/97_Hateville}
+		\subsubsection{Ricostruire la soluzione originale}
+			Considerando l'elemento $DP[i]$ il suo valore pu\`o essere derivato considerando:
+			\begin{itemize}
+			\item Se $DP[i]=DP[i-1]$ la casa $i$ non \`e stata selezionata.
+			\item Se $DP[i]=DP[i-2]+D[i]$ la casa $i$ \`e stata selezionata.
+			\end{itemize}
+			Si utilizza questa informazione per ricostruire la soluzione in modo ricorsivo: per costruire la soluzione fino a $i$ si ricostruisce la soluzione fino a $i-2$ e si aggiunge $i$ o si ricostruisce la soluzione fino a $i-1$ 
+			senza aggiungere nulla.\\
+			\input{Pseudocodice/98_Solution}
+		\subsubsection{Complessit\`a computazionale}
+			La complessit\`a computazionale di \emph{solution()} \`e $T(n)=\Theta(n)$, quella computazionale e spaziale di \emph{hateville()} \`e $T(n)=\Theta(n)$ e $S(n)=\Theta(n)$. Questa soluzione non si pu\`o 
+			migliorare se si vuole ricostruire la soluzione.
 
-\input{Pseudocodice/110_Ricostruzione_della_soluzione_-_Calcolo_Effettivo}
-\subsection{Insieme indipendente di intervalli pesati}
-\subsubsection{Problema}
-Si deve trovare un insieme indipendente di peso massimo, un sottoinsieme di intervalli disgiunti tra loro ($b_j \le a_i$ o $b_i\le a_j$ $\forall i\neq j$) tale che la somma dei loro 
-profitti sia la pi\`u grande possibile.
-\paragraph{Input}
-Siano dati $n$ intervalli distinti $[a_1, b_1[, \dots, [a_n, b_n[$ della retta reale aperti a destra, dove all'intervallo $i$ \`e associato un profitto $w_i$ con $1\le i\le n$.
-\subsubsection{Pre-elaborazione}
-Per usare la programmazione dinamica \`e necessario ordinare gli intervalli per estremi finali crescenti. In una prima versione $DP[i]$ contiene il profitto massimo ottenibile con i
-primi $i$ intervalli:
-$$DP[i] =\begin{cases}
-	0 & i = 0\\
-	\max(DP[i-1], max\{DP[j]+w_i: j < i \land b_j\le a_i\}) & i >0\\
-\end{cases}$$
-Il costo computazione dell'algoritmo associato \`e $O(n^2)$.\\
-Una possibile seconda pre-elaborazione consiste nel pre-calcolare il predecessore $pred_i = j$ di $i$, dove $j < i$ \`e il massimo indice tale che $b_j\le a_i$ e se non esiste tale 
-indice $pred_i = 0$. 
-$$DP[i] = \begin{cases}
-	0 & i = 0\\
-	\max(DP[i-1], DP[pred_i]+w_i) & i > 0\\
-\end{cases}$$
-\input{Pseudocodice/111_ComputePredecessor}
-Si noti come calcolare i predecessori costi $O(n^2)$, ma pu\`o essere migliorato in $O(n\log n)$. 
-\subsubsection{Implementazione}
-\input{Pseudocodice/112_MaxInterval}
-\subsubsection{Costo computazionale}
-\begin{itemize}
-	\item Ordinamento intervalli: $O(n\log n)$.
-	\item Calcolo predecessori: $O(n\log n)$.
-	\item Riempimento tabella DP: $O(n)$.
-	\item Ricostruzione soluzione: $O(n)$.
-	\item Algoritmo completo: $O(n\log n)$.
-\end{itemize}
+	\subsection{Knapsack}
+		Dato un insieme di oggetti, ognuno caratterizzato da un peso e da un profitto e uno zaino con un limite di capacit\`a trovare un sottoinsieme di oggetti il 
+		cui peso sia inferiore alla capacit\`a dello zaino e il profitto sia massimale, ovvero maggiore o uguale di qualunque altro sottoinsieme di oggetti. 
+		
+		\subsubsection{Caratterizzazione}
+			\paragraph{Input}
+			\begin{itemize}
+			\item Un vettore $w$, dove $w[i]$ \`e il peso dell'oggetto $i$-esimo.
+			\item Un vettore $p$, dove $p[i]$ \`e il profitto dell'oggetto $i$-esimo.
+			\item La capacit\`a $C$ dello zaino.
+			\end{itemize}
+			\paragraph{Output}
+			Un insieme $S\subseteq\{1,\dots, n\}$ tale che il volume totale deve essere minore uguale alla capacit\`a: $w(S)\sum\limits_{i\in S}w[i]<C$ e il profitto
+			totale sia massimizzato: $p(S)=\sum\limits_{i\in S}p[i]$.
+		
+		\subsubsection{Definizione matematica del valore della soluzione}
+			Dato uno zaino di capacit\`a $C$ e $n$ oggetti caratterizzati da peso $w$ e profitto $p$ si definisce $DP[i][c]$ il massimo profitto che pu\`o essere 
+			ottenuto dai primi $i\le n$ oggetti contenuti in uno zaino di capacit\`a $c\le C$. Il massimo profitto ottenibile dal problema originale \`e rappresentato
+			da $DP[n][C]$.
+			\paragraph{Parte ricorsiva}
+			Considerando l'ultimo oggetto lo si pu\`o non prendere: $DP[i][c]=DP[i-1][c]$, ovvero la capacit\`a non cambia e non c'\`e profitto; se invece lo prendo
+			$DP[i][c]=DP[i-1][c-w[i]]+p[i]$, ovvero si sottrae il peso alla capacit\`a e si aggiunge il profitto relativo. La scelta della soluzione migliore \`e:
+			$$DP[i][c] = \max(DP[i-1][c], DP[i-1][c-w[i]]+p[i])$$
+			\paragraph{Casi base}
+			Il profitto massimo in caso di assenza di oggetti o di capacit\`a \`e $0$, se invece si ha capacit\`a negativa vale $-\infty$. 
+			\paragraph{Formula completa}
+			$$
+			DP[i][c] =
+			\begin{cases}
+			0\quad & i = 0 \lor c = 0\\
+			-\infty & c<0\\
+			\max(DP[i-1][c], DP[i-1][c-w[i]]+p[i]) & altrimenti
+			\end{cases}
+			$$
+		
+		\subsubsection{Pseudocodice}
+			\input{Pseudocodice/99_KnapSack}
+		\subsubsection{Complessit\`a computazionale}
+			La complessit\`a della funzione \emph{knapsack()} \`e $T(n) = O(nC)$, una complessit\`a pseudo-polinomiale in quanto sono necessari $k = \log C$ bit per 
+			rappresentare $C$ e pertanto la complessit\`a \`e $T(n) = O(n2^k)$.
+		\subsubsection{Implementazione con memoization}
+			Si nota come non tutti gli elementi della matrice sono necessari alla soluzione del problema. Risulta vantaggioso pertanto utilizzare la tecnica di 
+			memoization, in cui la tabella viene inizializzata esternamente in una funzione wrapper e il valore $-1$ viene utilizzato per identificare il valore di
+			una cella non calcolata. \\
+			\input{Pseudocodice/100_Knapsack_con_memoization}
+	
+	\subsection{Knapsack senza limiti}
+		Dato uno zaino di capacit\`a $C$ e $n$ oggetti caratterizzati da peso $w$ e profitto $p$ si definisce $DP[i][c]$ come il massimo profitto che pu\`o essere
+		ottenuto dai primi $i\le n$ oggetti contenuti in uno zaino di capacit\`a $c\le C$ senza porre limiti al numero di volte che un oggetto pu\`o essere 
+		selezionato. Si modifica pertanto la funzione ricorsiva come:
+		$$
+		DP[i][c] =
+		\begin{cases}
+		0\quad & i = 0 \lor c = 0\\
+		-\infty & c<0\\
+		\max(DP[i \textcolor{red}{ \cancel{-1} } ][c], DP[i][c-w[i]]+p[i]) & altrimenti
+		\end{cases}
+		$$
+		In questo modo \`e possibile semplificare la soluzione riducendo lo spazio occupato: si definisce $DP[c]$ il massimo profitto che pu\`o essere ottenuto
+		da tali oggetti in uno zaino di capacit\`a $c\le C$. 
+		$$
+		DP[c] =
+		\begin{cases}
+		0\quad & c = 0\\
+		\max\limits_{w[i]<c}\{DP[c-w[i]]+p[i]\} &  c > 0
+		\end{cases}
+		$$
+		\subsubsection{Implementazione tramite memoization}
+			\input{Pseudocodice/101_Knapsack_senza_limiti_con_memoization}
+			Attraverso questo algoritmo non \`e detto che tutti gli elementi debbano essere riempiti e la complessit\`a in spazio \`e $\Theta(C)$.
+		\subsubsection{Ricostruire la soluzione}
+			Questo approccio rende pi\`u difficile ricostruire la soluzione: si possono ispezionare tutti gli elementi per capire da dove deriva il massimo, ma 
+			risulta pi\`u semplice memorizzare l'indice da cui deriva il massimo. 
+			\paragraph{Implementazione tramite memoization}\mbox{}\\
+			\input{Pseudocodice/102_Knapsack_senza_limiti_con_memoization}
+			Restituisce una lista di indici selezionati, se $c=0$ lo zaino \`e stato riempito perfettamente, se $pos[c]<0$ lo zaino non pu\`o essere riempito 
+			interamente.
+		\subsection{Sottosequenza comune massimale}
+			\paragraph{Sottosequenza}
+			Si definisce una sequenza $P$ come sottosequenza di $T$ se $P$ \`e ottenuto da $T$ rimuovendo uno o pi\`u dei suoi elementi o come il sottoinsieme di indici
+			$\{1, \dots, n\}$ degli elementi di $T$ che compaiono anche in $P$. I rimanenti elementi sono indicati in ordine senza essere necessariamente contigui. La
+			sottosequenza vuota $\emptyset$ \`e sottosequenza di qualsiasi altra sottosequenza. 
+			\paragraph{Sottosequenza comune}
+			Una sottosequenza $X$ \`e detta sottosequenza comune di due sequenze $T$ e $U$ se \`e sottosequenza sia di $T$ che di $U$: $X\in \mathcal{CS}(T, U)$.
+			\paragraph{Sottosequenza comune massimale}
+			Una sequenza $X\in \mathcal{CS}(T, U)$ \`e una sottosequenza comune massimale di due sequenze $T$ e $U$ se non esiste altra sottosequenza comune $Y\in 
+			\mathcal{CS}(T, U)$ tale che $Y$ sia pi\`u lunga di $X$, si scrive: $X\in \mathcal{LCS}(T, U)$.
+		\subsubsection{Definizione del problema}
+			Date due sequenze $T$ e $U$ si trovi la pi\`u lunga sottosequenza comune di $T$ e $U$. 
+		\subsubsection{Soluzione di forza bruta}
+			\input{Pseudocodice/103_LCS}
+			Si noti come data una sottosequenza lunga $n$, le sue sottosequenze sono $2^n$ e verificare che una sequenza \`e sottosequenza di un'altra sottosequenza
+			\`e $O(m+n)$, la complessit\`a computazionale dell'algoritmo sopra \`e pertanto $\Theta(2^n(m+n))$. 
+		\subsubsection{Descrizione matematica della soluzione ottima}
+			Data una sequenza $T$ composta da caratteri $t_1\dots t_n$, $T(i)$ denota il prefisso di $T$ dato dai primi caratteri. L'obiettivo \`e, date due sequenze
+			$T$ e $U$ di lunghezza $n$ e $m$, di scrivere una formula ricorsiva $LCS(T(i), U(i))$ che restituisa la LCS dei prefissi $T(i)$ e $U(i)$. 
+			\paragraph{Casi ricorsivi}
+			\subparagraph{Primo caso}
+			Si considerino due prefissi $T(i)$ e $U(j)$ tali per cui l'ultimo carattere coincide, $t_i = u_j$ allora: 
+			$$LCS(T(i), U(j)) = LCS(T(i - 1), U(j - 1))\oplus t_i$$
+			\subparagraph{Secondo caso}
+			Si considerino due prefissi $T(i)$ e $U(j)$ tali per cui l'ultimo carattere non coincide, $t_i \neq u_j$ allora: 
+			$$LCS(T(i), U(j)) = longest(LCS(T(i - 1), U(j)), LCS(T(i), U(j - 1)))$$
+			\paragraph{Casi base}
+			La sottosequenza pi\`u lunga quando una delle due sequenze \`e vuota, ovvero $i = 0$ o $j = 0$ \`e la sequenza vuota. 
+			\paragraph{Soluzione completa}
+			$$
+			LCS(T(i), U(j)) = 
+			\begin{cases}
+			\emptyset & i = 0 \lor j = 0\\
+			LCS(T(i - 1), U(j - 1))\oplus t_i & i > 0 \land j > 0 \land t_i = u_j\\
+			longest(LCS(T(i - 1), U(j)), LCS(T(i), U(j - 1))) & i > 0 \land j > 0 \land t_i \neq u_j
+			\end{cases}
+			$$
+		\subsubsection{Sottostruttura ottima}
+			Date le due sequenze $T=(t_1, \dots t_n)$ e $U=(u_1, \dots, u_m)$ e $X=(x_1, \dots x_k)$ una LCS di $T$ e $U$. Sono dati tre casi:
+			\begin{center}
+			\begin{tabular}{c c c c}
+			1. & $t_n = u_m$ & $\Rightarrow$ & $x_k = t_n = u_m$ $\land$ $X(k-1)\in\mathcal{LCS}(T(n-1), U(m-1))$\\
+			2. & $t_n\neq u_m\land x_k\neq t_n$ & $\Rightarrow$ & $X\in \mathcal{LCS}(T(n-1), U(m))$\\
+			3. & $t_n\neq u_m\land x_k\neq u_m$ & $\Rightarrow$ & $X\in \mathcal{LCS}(T(n), U(m-1))$\\
+			\end{tabular}
+			\end{center}
+			\paragraph{Dimostrazione primo caso}
+			\subparagraph{Prima parte}
+			$$t_n = u_m \Rightarrow x_k = t_n = u_m$$
+			Si consideri per assurdo $x_k \neq t_n = u_m$. Si consideri ora $Y= X\oplus t_n$, allora $Y\in\mathcal{CS}(T, U)$ e $|Y|>|X|$, che \`e una contraddizione.
+			\subparagraph{Seconda parte}
+			$$t_n = u_m \Rightarrow X(k-1)\in\mathcal{LCS}(T(n-1), U(m-1))$$
+			Si consideri per assurdo $X(k-1)\not\in\mathcal{LCS}(T(n-1), U(m-1))$, allora $\exists Y\in\mathcal{LCS}(T(n-1), U(m-1))$ tale che $|Y|>|X(k-1)|$, pertanto
+			$Y\oplus t_n\in\mathcal{CS}(T, U)$ e $|Y\oplus t_n|>|X(k-1)\oplus t_n|=X$, che \`e una contraddizione. 
+			\paragraph{Dimostrazione secondo caso (terzo simmetrico)}
+			$$t_n\neq u_m\land x_k\neq t_n \Rightarrow X\in \mathcal{LCS}(T(n-1), U(m))$$
+			Si consideri per assurdo $X\not\in \mathcal{LCS}(T(n-1), U(m))$, allora $\exists Y\in\mathcal{LCS}(T(n-1), U(m))$ tale che $|Y|>|X|$, pertanto \`e anche
+			vero che $Y\in \mathcal{LCS}(T, U)$, pertanto $X$ non \`e $\mathcal{LCS}(T, U)$, che \`e un assurdo. 
+		\subsubsection{Ricorrenza per il valore della soluzione ottimale}
+			Date due sequenze $T$ e $U$ di lunghezza $n$ e $m$ si scriva una formula ricorsiva $DP[i][j]$ che restituisca la lunghezza della $\mathcal{LCS}$ dei 
+			prefissi $T(i)$ e $U(j)$.
+			$$
+			DP[i][j] = 
+			\begin{cases}
+			0 & i = 0\lor j = 0\\
+			DP[i-1][j-1]+1 & i > 0 \land j > 0 \land t_i = u_j\\
+			\max(DP[i - 1][j], DP[i][j - 1]) & i > 0 \land j > 0 \land t_i \neq u_j
+			\end{cases}
+			$$ 
+			$DP[n][m]$ contiene la lunghezza della $\mathcal{LCS}$ del probema originale. \\
+			\input{Pseudocodice/104_LCS}
+		\subsubsection{Ricostruire la sottosequenza comune}
+			\input{Pseudocodice/105_}
+			La complessit\`a computazionale di \emph{subsequence()} \`e $O(m+n)$, mentre quella di LCS \`e $O(mn)$. 
+	\subsection{String matching approssimato}
+		\subsubsection{Definizione}
+		Si dice un'occorrenza k-approssimata di $P$ in $T$, dove $P=p_1\dots p_m$ \`e una stringa detta pattern, $T=t_1\dots t_n$ \`e una stringa detta testo con $m\le n$, una copia di $P$ in 
+		$T$ in cui sono ammessi $k$ differenze tra caratteri di $P$ e caratteri di $T$ del tipo:
+		\begin{itemize}
+			\item I corrispondenti caratteri in $P$, $T$ sono diversi (sostituzione).
+			\item Un carattere in $P$ non \`e incluso in $T$ (inserimento).
+			\item Un carattere in $T$ non \`e incluso in $P$ (cancellazione).
+		\end{itemize}
+		\subsubsection{Problema}
+		Il problema \`e trovare un'occorrenza $k$-approssimata di $P$ in $T$ con $k$ minimo ($0\le k \le m$).
+		\subsubsection{Sottostruttura ottima}
+			Sia $DP[0\dots m][0\dots n]$ una tabella di programmazione dinamica tale che $DP[i][j]$ sia il minimo valore $k$ per cui esiste un'occorrenza $k$-approssimata di $P(i)$ in $T(j)$ che
+			termina nella posizione $j$. Si hanno quattro possibilit\`a:
+			\begin{itemize}
+				\item $DP[i-1][j-1]$ se $P[i]=T[j]$.
+				\item $DP[i-1][j-1]+1$ se $P[i]\neq T[j]$ per la sostituzione.
+				\item $DP[i-1][j]+1$ per l'inserimento.
+				\item $DP[i][j-1]+1$ per la cancellazione.
+			\end{itemize}
+			$$DP[i][j] =
+			\begin{cases}
+				0 & i = 0\\
+				i & j = 0\\
+			\begin{split}
+				\min\{\	& DP[i-1][j-1]+\delta, \quad\quad \delta = iif(P[i]=T[j], 0, 1)\\
+					& DP[i-1][j]+1, \\
+					& DP[i][j-1]+1\} \\
+			\end{split}& altrimenti\\
+			\end{cases}$$
+		\subsubsection{Ricostruzione della soluzione finale}
+			$DP[m][j] = k$ se e solo se esiste un'occorrenza k-approssimata di $P$ in $T(j)$ che termina nella posizione $j$. La soluzione del problema \`e data dal pi\`u piccolo valore  $DP[m][j]$ 
+			per $0\le j\le n$. Si noti pertanto come la soluzione del problema non si trova nella casella ``in basso a destra" ma vada essa stessa ricercata nella tabella $DP$.
+		\subsubsection{Algoritmo}
+			\input{Pseudocodice/106_StringMatching}
+	\subsection{Prodotto di catena di matrici}
+		\subsubsection{Problema}
+			Data una sequenza $n$ di matrici $A_1, \dots, A_n$ compatibili due a due al prodotto, si vuole calcolare il loro prodotto. Si noti come il prodotto di 
+			matrici non sia commutativo ma associativo. Notando come il prodotto di matrici si basa sulla moltiplicazione scalare come operazione elementare si vuole
+			calcolare il prodotto delle $n$ matrici impiegando il minor numero possibile di moltiplicazioni scalari. 
+		\subsubsection{Parentesizzazione}
+			La parentesizzazione $P_{i, j}$ del prodotto $A_i\cdot A_{i+1}\cdots A_j$ \`e la matrice $A_i$ se $i=j$, il prodotto di due parentesizzazioni $(P_{i,k}
+			\cdot P_{k+1, j})$ altrimenti. 
+			\paragraph{Parentesizzazione ottima}
+			La parentesizzazione che richiede il minor numero di moltiplicazioni scalari per essere completata fra tutte le parentesizzazioni possibili si dice 
+			ottima. Vale la pena preprocessare i dati per cercare la parentesizzazione migliore per risparmiare tempo nel calcolo vero e proprio. Detto $P(n)$ il
+			numero di parentesizzazioni per $n$ matrici $A_1\cdot\cdots\cdot A_n$ l'ultimo prodotto pu\`o occorrere in $n-1$ posizioni diverse. Pertanto fissato 
+			l'indice $k$ dell'ultimo prodotto si hanno: $P(k)$ parentesizzazioni per $A_1\cdot\cdots\cdot A_k$ e $P(n-k)$ parentesizzazioni per  $A_{k+1}\cdot\cdots
+			\cdot A_n$. Pertanto.
+			$$P(n) = 
+			\begin{cases}
+				1 & n =1 \\
+				\sum\limits_{i = 1}^{n-1} P(k)P(n-k) & n > 1\\
+			\end{cases}$$
+			\subparagraph{Numero di Catalan}
+			$$P(n+1) = C(n) = \dfrac{1}{n+1}\binom{2n}{n} = \dfrac{(2n)!}{(n+1)!n!} = \Omega\biggl(\dfrac{4^n}{n^{\frac{3}{2}}}\biggr)$$
+			In matematica $C(n)$ indica il numero di modi in cui un poligono convesso con $n+2$ lati pu\`o essere suddiviso in triangoli. Si pu\`o mostrare facilmente
+			come $P(n)=\Omega(2^n)$. 
+		\subsubsection{Lista di definizioni matematiche}
+			\begin{itemize}
+				\item $A_1\cdot\cdots\cdot A_n$ \`e il prodotto di $n$ matrici da ottimizzare.
+				\item $c_{i-1}$ \`e il numero di righe della matrice $A_i$.
+				\item $c_i$ \`e il numero di colonne della matrice $A_i$.
+				\item $A[i\dots j]$ \`e il sottoprodotto $A_i\cdot A_{i+1}\cdot\cdots\cdot A_j$.
+				\item $P[i\dots j]$ \`e una parentesizzazione per $A[i\dots j]$, non necessariamente ottima. 
+			\end{itemize}
+		\subsubsection{Struttura di una parentesizzazione ottima}
+			Sia $A[i\dots j]$ una sottosequenza del prodotto di matrici e si consideri una parentesizzazione ottima $P[i\dots j]$ di $A[i\dots j]$. Esiste un ultimo
+			prodotto: un indice $k$ tale che $P[i\dots j] = P[i\dots k]\cdot P[k+1\dots j]$.
+			\paragraph{Teorema della sottostruttura ottima}
+			\subparagraph{Enunciato}
+			Se $P[i\dots j]=P[i\dots k]\cdot P[k+1\dots j]$ \`e una parentesizzazione ottima del prodotto $A[i\dots j]$ allora $P[i\dots k]$ \`e una parentesizzazione
+			ottima del prodotto $A[i\dots k]$ e $P[k+1\dots j]$ \`e una parentesizzazione ottima del prodotto $A[k+1\dots j]$. 
+			\subparagraph{Dimostrazione}
+			Si supponga che esista una parentesizzazione ottima $P'[i\dots k]$ di $A[i\dots k]$ con costo inferiore a $P[i\dots k]$. Allora $P'[i\dots k]\cdot 
+			P[k+1\dots j]$ sarebbe una parentesizzazione di $A[i\dots j]$ con costo inferiore a $P[i\dots j]$, che \`e un assurdo. 
+		\subsubsection{Valore della soluzione ottima}
+			Sia $DP[i][j]$ il minimo numero di moltiplicazioni scalari necessarie per calcolare il prodotto $A[i\dots j]$. 
+			\begin{itemize}
+				\item Caso base $i=j$. Allora $DP[i][j]=0$.
+				\item Passo ricorsivo: $i<j$ esiste una parentesizzazione ottima $$P[i\dots j] = P[i\dots k]\cdot P[k+1\dots j]$$ Sfruttando la ricorsione 
+					$$DP[i][j] = DP[i][k]+DP[k+1][j]+c_{i-1}\cdot c_k\cdot c_j$$
+			\end{itemize}
+			Considerando $c_{i-1}\cdot c_k\cdot c_j$ il costo per moltiplicare la matrice $A_i\cdot\cdots\cdot A_k$: $c_{i-1}$ righe, $c_k$ colonne e la matrice $A_{k+1}\cdot\cdots\cdot A_j$:
+			$c_k$ righe, $c_j$ colonne. Non si conosce il valore di $k$ si devono provare tutti i valori che pu\`o assumere, tra $i$ e $j-1$:
+			$$DP[i][j] = \begin{cases}
+				0 & i = j\\
+				\min\limits_{i\le k < j}\{DP[i][k]+DP[k+1][j]+c_{i-1}\cdot c_k\cdot c_j\} & i < j\\
+			\end{cases}$$
+		\subsubsection{Implementazione}
+			\paragraph{Input}
+			L'algoritmo riceve in input un vettore $c[0\dots n]$ contenente le dimensioni delle matrici, dove $c[0]$ \`e il numero di righe della prima matrice. $c[i-1]$ \`e il numero di righe 
+			della matrice $A_i$ e $c[i]$ \`e il numero di colonne della matrice $A_i$ e due indici $i$ e $j$ che rappresentano l'intervallo di matrici da moltiplicare. 
+			\paragraph{Output}
+			Il numero di moltiplicazioni scalari per calcolare il prodotto delle matrici comprese tra gli indici $i$ e $j$.
+			\paragraph{Approccio ricorsivo}\mbox{}\\
+			\input{Pseudocodice/107_RecPar}
+			\subparagraph{Valutazione}
+			La soluzione ricorsiva top-down \`e $\Omega(2^n)$. Il problema \`e che i sottoproblemi che sono $\frac{n(n+1)}{2}$ vengono risolti pi\`u volte.
+			\paragraph{Versione bottom-up}
+			Si creino due tabelle di programmazione dinamica, due matrici $DP$ e $last$ di dimensione $n\times n$ tali che $DP[i][j]$ contiene il numero di moltiplicazioni scalari necessarie per 
+			moltiplicare le matrici $A[i\dots j]$ e $last[i][j]$ contiene il valore $k$ dell'ultimo prodotto che minimizza il costo del sottoproblema.\\
+			\input{Pseudocodice/108_ComputePar}
+			\subparagraph{Valutazioni}
+			Il costo computazionale \`e $O(n^3)$, in quanto ogni cella richiede tempo $O(n)$ per essere riempita. Il costo della funzione si trova nella posizione $DP[1][n]$. \`E anche necessario
+			mostrare la soluzione trovata, motivo per cui si salvano le informazioni nella matrice last.\\ 
+			\input{Pseudocodice/109_Ricostruzione_della_soluzione_-_Stampa}
+
+			\input{Pseudocodice/110_Ricostruzione_della_soluzione_-_Calcolo_Effettivo}
+	\subsection{Insieme indipendente di intervalli pesati}
+		\subsubsection{Problema}
+			Si deve trovare un insieme indipendente di peso massimo, un sottoinsieme di intervalli disgiunti tra loro ($b_j \le a_i$ o $b_i\le a_j$ $\forall i\neq j$) tale che la somma dei loro 
+			profitti sia la pi\`u grande possibile.
+			\paragraph{Input}
+			Siano dati $n$ intervalli distinti $[a_1, b_1[, \dots, [a_n, b_n[$ della retta reale aperti a destra, dove all'intervallo $i$ \`e associato un profitto $w_i$ con $1\le i\le n$.
+		\subsubsection{Pre-elaborazione}
+			Per usare la programmazione dinamica \`e necessario ordinare gli intervalli per estremi finali crescenti. In una prima versione $DP[i]$ contiene il profitto massimo ottenibile con i
+			primi $i$ intervalli:
+			$$DP[i] =\begin{cases}
+				0 & i = 0\\
+				\max(DP[i-1], max\{DP[j]+w_i: j < i \land b_j\le a_i\}) & i >0\\
+			\end{cases}$$
+			Il costo computazione dell'algoritmo associato \`e $O(n^2)$.\\
+			Una possibile seconda pre-elaborazione consiste nel pre-calcolare il predecessore $pred_i = j$ di $i$, dove $j < i$ \`e il massimo indice tale che $b_j\le a_i$ e se non esiste tale 
+			indice $pred_i = 0$. 
+			$$DP[i] = \begin{cases}
+				0 & i = 0\\
+				\max(DP[i-1], DP[pred_i]+w_i) & i > 0\\
+			\end{cases}$$
+			\input{Pseudocodice/111_ComputePredecessor}
+			Si noti come calcolare i predecessori costi $O(n^2)$, ma pu\`o essere migliorato tramite ricerca dicotomica in $O(n\log n)$. 
+		\subsubsection{Implementazione}
+			\input{Pseudocodice/112_MaxInterval}
+		\subsubsection{Costo computazionale}
+			\begin{itemize}
+				\item Ordinamento intervalli: $O(n\log n)$.
+				\item Calcolo predecessori: $O(n\log n)$.
+				\item Riempimento tabella DP: $O(n)$.
+				\item Ricostruzione soluzione: $O(n)$.
+				\item Algoritmo completo: $O(n\log n)$.
+			\end{itemize}

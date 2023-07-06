@@ -1,188 +1,211 @@
 \chapter{Scelta}
 \section{Il problema dei cammini minimi}
-\paragraph{Definizione}
-Dato un cammino $p=<v_1, v_2, \dots, v_k>$ con $k>1$ il costo del cammino \`e dato da $$w(p) = \sum\limits_{i =2}^k w(v_{i-1}, v_i)$$
-\paragraph{Input}
-Un grafo orientato $G = (V, E)$, un nodo sorgente $s$ e una funzione di peso $w: E\rightarrow \mathbb{R}$.
-\paragraph{Output}
-Trovare un cammino da $s$ a $u$ per ogni nodo $u\in V$, il cui costo sia minimo.
-\subsection{Varianti del problema}
-\subsubsection{Cammini minimi da sorgente unica}
-\subparagraph{Input:} un grafo pesato con nodo radice $s$.
-\subparagraph{Output:} i cammini minimi che vanno da $s$ a tutti gli altri nodi.
-\subsubsection{Cammino minimo tra una coppia di vertici}
-\subparagraph{Input:} un grafo pesato e una coppia di vertici $s$, $d$.
-\subparagraph{Output:} un cammino minimo fra $s$ e $d$, per risolverlo si risolve il problema dei cammini minimi da sorgente unica e si estrae il cammino richiesto in quanto non si 
-conoscono algoritmi con tempo di esecuzione migliore.
-\subsubsection{Cammini minimi tra tutte le coppie di vertici}
-\subparagraph{Input:} un grafo pesato.
-\subparagraph{Output:} i cammini minimi fra tutte le coppie di vertici, la soluzione si basa su programmazione dinamica.
-\subsubsection{Pesi}
-Alcuni algoritmi possono funzionare unicamente con alcune categorie speciali di pesi: positivi o sia positivi che negativi e reali o interi.
-\subsection{Sottostruttura ottima}
-Si noti come due cammini possono avere un tratto in comune $A\rightsquigarrow B$ ma non possono convergere in un nodo comune $B$ dopo aver percorso un tratto iniziale distinto. 
-\subsubsection{Albero dei cammini minimi}
-L'albero dei cammini minimi \`e un albero di copertura radicato in $s$ avente un cammino da $s$ a tutti i nodi raggiungibili da $s$. Viene detto anche spanning tree. Dato un grafo $G=
-(V, E)$ non orientato e connesso, un albero di copertura di $G$ \`e un sottografo $T=(V, E_T)$ tale che $T$ \`e un albero, $E_T\subseteq E$ e $T$ contiene tutti i vertici di $G$. 
-\paragraph{Rappresentazione albero}
-Per rappresentare l'albero si utilizza la rappresentazione basata sul vettore dei padri.
-\subsubsection{Soluzione ammissibile}
-Una soluzione ammissibile pu\`o essere descritta da un albero di copertura $T$ radicato in $s$ e da un vettore di distanza $d$, i cui valori $d[u]$ rappresentano il costo del cammino da
-$s$ a $u$ in $T$.\\
-\input{Pseudocodice/83_PrintPath}
+	\paragraph{Definizione}
+	Dato un cammino $p=<v_1, v_2, \dots, v_k>$ con $k>1$ il costo del cammino \`e dato da $$w(p) =
+		\sum\limits_{i =2}^k w(v_{i-1}, v_i)$$
+	\paragraph{Input} Un grafo orientato $G = (V, E)$, un nodo sorgente $s$ e una funzione di peso $w:
+		E\rightarrow \mathbb{R}$.
+	\paragraph{Output} Trovare un cammino da $s$ a $u$ per ogni nodo $u\in V$, il cui costo sia minimo.
+	\subsection{Varianti del problema}
+	\subsubsection{Cammini minimi da sorgente unica}
+	\subparagraph{Input:} un grafo pesato con nodo radice $s$.
+	\subparagraph{Output:} i cammini minimi che vanno da $s$ a tutti gli altri nodi.
+	\subsubsection{Cammino minimo tra una coppia di vertici}
+	\subparagraph{Input:} un grafo pesato e una coppia di vertici $s$, $d$.
+	\subparagraph{Output:} un cammino minimo fra $s$ e $d$, per risolverlo si risolve il problema dei cammini minimi da
+	sorgente unica e si estrae il cammino richiesto in quanto non si conoscono algoritmi con tempo di
+	esecuzione migliore.
+	\subsubsection{Cammini minimi tra tutte le coppie di vertici}
+	\subparagraph{Input:} un grafo pesato.
+	\subparagraph{Output:} i cammini minimi fra tutte le coppie di vertici, la soluzione si basa su programmazione dinamica.
+	\subsubsection{Pesi}
+	Alcuni algoritmi possono funzionare unicamente con alcune categorie speciali di pesi: positivi o
+	sia positivi che negativi e reali o interi.
+	\subsection{Sottostruttura ottima}
+	Si noti come due cammini possono avere un tratto in comune $A\rightsquigarrow B$ ma non possono
+	convergere in un nodo comune $B$ dopo aver percorso un tratto iniziale distinto.
+	\subsubsection{Albero dei cammini minimi}
+	L'albero dei cammini minimi \`e un albero di copertura radicato in $s$ avente un cammino da $s$ a
+	tutti i nodi raggiungibili da $s$. Viene detto anche spanning tree. Dato un grafo $G= (V, E)$ non
+	orientato e connesso, un albero di copertura di $G$ \`e un sottografo $T=(V, E_T)$ tale che $T$ \`e
+	un albero, $E_T\subseteq E$ e $T$ contiene tutti i vertici di $G$.
+	\paragraph{Rappresentazione albero} Per rappresentare l'albero si utilizza la rappresentazione basata
+	sul vettore dei padri.
+	\subsubsection{Soluzione ammissibile}
+	Una soluzione ammissibile pu\`o essere descritta da un albero di copertura $T$ radicato in $s$ e da
+	un vettore di distanza $d$, i cui valori $d[u]$ rappresentano il costo del cammino da $s$ a $u$ in
+	$T$.\\ \input{Pseudocodice/83_PrintPath}
 \section{Teorema di Bellman}
-\paragraph{Enunciato}
-Una soluzione ammissibile $T$ \`e ottima se e solo se: $$d[v] = d[u]+w(u, v) \quad\quad \text{per ogni arco }(u, v)\in T$$ $$d[v] \le d[u]+w(u, v) \quad\quad \text{per ogni arco }(u, v)
-\in E$$
-\paragraph{Dimostrazione}
-\subparagraph{Se $T$ \`e una soluzione ottima, allora valgono le condizioni di Bellman} Sia $T$ una soluzione ottima e $(u, v)\in E$. Se $(u, v)\in T$ allora $d[v]=d[u]+w(u, v)$. Se
-$(u, v)\not\in T$ allora $d[v]\le d[u]+w(u, v)$ perch\`e altrimenti esisterebbe nel grafo $G$ un cammino da $s$ a $v$ pi\`u corto di quello in $T$, che \`e un assurdo.
-\subparagraph{Se valgono le condizioni di Bellman allora $T$ \`e una soluzione ottima} Si supponga per assurdo che il cammino da $s$ a $u$ non sia ottimo, allora esiste un albero $T'$
-in cui il cammino da $s$ a $u$ ha distanza $d'[u]<d[u]$ con $d'$ il vettore delle distanze associato a $T'$. Essendo $d'[s]=d[s]=0$ ma $d'[u]<d[u]$ esiste un arco $(h, k)$ per cui 
-$d'[h]\ge d[h]$ e $d'[k]<d[k]$. Si noti ora come per costruzione $d'[h]\ge d[h]$ e $d'[k]=d'[h]+w(h, k)$, e per ipotesi $d[k]\le d[h]+w(h, k)$. Combinando queste due relazioni si ottiene
-$$ d'[k] = d'[h]+w(h, k)\ge d[h]+w(h, k)\ge d[k]$$ Pertanto $d'[k]\ge d[k]$, che contraddice $d'[k]<d[k]$. 
-\subsection{Implementazioni}
-\subsubsection{Algoritmo prototipo}
-\input{Pseudocodice/84_ProCamMin}
-Se al termine dell'esecuzione qualche nodo mantiene una distanza infinita non \`e raggiungibile.
-\subsubsection{Algoritmo generico}
-\input{Pseudocodice/85_ProCamMin}
+	\paragraph{Enunciato}
+	Una soluzione ammissibile $T$ \`e ottima se e solo se: $$d[v] = d[u]+w(u, v) \quad\quad \text{per
+			ogni arco }(u, v)\in T$$ $$d[v] \le d[u]+w(u, v) \quad\quad \text{per ogni arco }(u, v) \in E$$
+	\paragraph{Dimostrazione}
+	\subparagraph{Se $T$ \`e una soluzione ottima, allora valgono le condizioni di Bellman} Sia $T$ una soluzione ottima e $(u, v)\in E$. Se $(u, v)\in T$ allora $d[v]=d[u]+w(u, v)$. Se $(u,
+		v)\not\in T$ allora $d[v]\le d[u]+w(u, v)$ perch\`e altrimenti esisterebbe nel grafo $G$ un cammino
+	da $s$ a $v$ pi\`u corto di quello in $T$, che \`e un assurdo.
+	\subparagraph{Se valgono le condizioni di Bellman allora $T$ \`e una soluzione ottima} Si supponga per assurdo che il cammino da $s$ a $u$ non sia ottimo, allora esiste un albero $T'$ in
+	cui il cammino da $s$ a $u$ ha distanza $d'[u]<d[u]$ con $d'$ il vettore delle distanze associato a
+	$T'$. Essendo $d'[s]=d[s]=0$ ma $d'[u]<d[u]$ esiste un arco $(h, k)$ per cui $d'[h]\ge d[h]$ e
+	$d'[k]<d[k]$. Si noti ora come per costruzione $d'[h]\ge d[h]$ e $d'[k]=d'[h]+w(h, k)$, e per
+	ipotesi $d[k]\le d[h]+w(h, k)$. Combinando queste due relazioni si ottiene $$ d'[k] = d'[h]+w(h,
+		k)\ge d[h]+w(h, k)\ge d[k]$$ Pertanto $d'[k]\ge d[k]$, che contraddice $d'[k]<d[k]$.
+	\subsection{Implementazioni}
+	\subsubsection{Algoritmo prototipo}
+	\input{Pseudocodice/84_ProCamMin}
+	Se al termine dell'esecuzione qualche nodo mantiene una distanza infinita non \`e raggiungibile.
+	\subsubsection{Algoritmo generico}
+	\input{Pseudocodice/85_ProCamMin}
 
-\input{Pseudocodice/86_ProCamMin}
+	\input{Pseudocodice/86_ProCamMin}
 \section{Algoritmo di Dijkstra}
-Nella versione originale viene utilizzato per trovare la distanza minima fra due nodi utilizzando il concetto di code di priorit\`a. Funziona unicamente con pesi positivi e viene 
-utilizzato in protocolli di rete.
-\subsection{Funzionamento}
-\subsubsection{Inizializzazione}
-Viene creato un vettore di dimensione $n$ in cui l'indice $u$ rappresenta il nodo $u$-esimo. Le priorit\`a vengono inizializzate a $+\infty$ e quella di $s$ uguale a $0$. Questa 
-operazione ha costo computazionale $O(n)$.
-\subsubsection{Estrazione minimo}
-Si ricerca il minimo all'interno del vettore, una volta trovato si cancella la sua priorit\`a, con costo computazionale $O(n)$. 
-\subsubsection{Inserimento in coda}
-Si registra la priorit\`a nella posizione $v$-esima con costo $O(1)$.
-\subsubsection{Aggiornamento priorit\`a}
-Si aggiorna la priorit\`a nbella posizione $v$-esima con costo computazionale $O(1)$.
-\subsection{Correttezza per pesi positivi}
-Ogni nodo viene estratto una e una sola volta e al momento dell'estrazione la sua distanza \`e minima. La dimostrazione si fa per induzione sul numero $k$ di nodi estratti.
-\subparagraph{Caso base}
-\`E vero in quanto $d[s]=0$ e non ci sono lunghezze negative.
-\subparagraph{Passo induttivo}
-Si consideri per ipotesi induttiva che sia vero per i primi $k-1$ nodi. Quando viene estratto il $k$-esimo nodo $u$ la sua distanza $d[u]$ dipende dai $k-1$ nodi gi\`a estratti e non 
-pu\`o dipendere dai nodi ancora da estrarre in quanto hanno distanza $\ge d[u]$, pertanto $d[u]$ \`e minimo e $u$ non verr\`a pi\`u re-inserito in quanto non ci sono distanze negative.
-\subsubsection{Implementazione}
-\input{Pseudocodice/87_ProCamMin}
-\paragraph{Costo computazionale con coda con priorit\`a basata su vettore}
-\begin{itemize}
-	\item Inizializzazione: costo $O(n)$ con una ripetizione.
-	\item Estrazione minimo: costo $O(n)$ con $O(n)$ ripetizioni.
-	\item Inserimento in coda: costo $O(1)$ con $O(n)$ ripetizioni.
-	\item Aggiornamento priorit\`a: costo $O(1)$ con $O(m)$ ripetizioni.
-\end{itemize}
-Per un costo totale di $O(n^2)$.
-\paragraph{Costo computazionale con coda con priorit\`a basata su heap binario}
-\begin{itemize}
-	\item Inizializzazione: costo $O(n)$ con una ripetizione.
-	\item Estrazione minimo: costo $O(\log n)$ con $O(n)$ ripetizioni.
-	\item Inserimento in coda: costo $O(\log n)$ con $O(n)$ ripetizioni.
-	\item Aggiornamento priorit\`a: costo $O(\log n)$ con $O(m)$ ripetizioni.
-\end{itemize}
-Per un costo totale di $O(m\log n)$.
-\paragraph{Costo computazionale con coda con priorit\`a basata su heap binario}
-\begin{itemize}
-	\item Inizializzazione: costo $O(n)$ con una ripetizione.
-	\item Estrazione minimo: costo $O(\log n)$ con $O(n)$ ripetizioni.
-	\item Inserimento in coda: costo $O(\log n)$ con $O(n)$ ripetizioni.
-	\item Aggiornamento priorit\`a: costo ammortizzato $O(1)$ con $O(m)$ ripetizioni.
-\end{itemize}
-Per un costo totale di $O(m+n\log n)$.
+	Nella versione originale viene utilizzato per trovare la distanza minima fra due nodi utilizzando
+	il concetto di code di priorit\`a. Funziona unicamente con pesi positivi e viene utilizzato in
+	protocolli di rete.
+	\subsection{Funzionamento}
+	\subsubsection{Inizializzazione}
+	Viene creato un vettore di dimensione $n$ in cui l'indice $u$ rappresenta il nodo $u$-esimo. Le
+	priorit\`a vengono inizializzate a $+\infty$ e quella di $s$ uguale a $0$. Questa operazione ha
+	costo computazionale $O(n)$.
+	\subsubsection{Estrazione minimo}
+	Si ricerca il minimo all'interno del vettore, una volta trovato si cancella la sua priorit\`a, con
+	costo computazionale $O(n)$.
+	\subsubsection{Inserimento in coda}
+	Si registra la priorit\`a nella posizione $v$-esima con costo $O(1)$.
+	\subsubsection{Aggiornamento priorit\`a}
+	Si aggiorna la priorit\`a nbella posizione $v$-esima con costo computazionale $O(1)$.
+	\subsection{Correttezza per pesi positivi}
+	Ogni nodo viene estratto una e una sola volta e al momento dell'estrazione la sua distanza \`e
+	minima. La dimostrazione si fa per induzione sul numero $k$ di nodi estratti.
+	\subparagraph{Caso base}
+	\`E vero in quanto $d[s]=0$ e non ci sono lunghezze negative.
+	\subparagraph{Passo induttivo}
+	Si consideri per ipotesi induttiva che sia vero per i primi $k-1$ nodi. Quando viene estratto il
+	$k$-esimo nodo $u$ la sua distanza $d[u]$ dipende dai $k-1$ nodi gi\`a estratti e non pu\`o
+	dipendere dai nodi ancora da estrarre in quanto hanno distanza $\ge d[u]$, pertanto $d[u]$ \`e
+	minimo e $u$ non verr\`a pi\`u re-inserito in quanto non ci sono distanze negative.
+	\subsubsection{Implementazione}
+	\input{Pseudocodice/87_ProCamMin}
+	\paragraph{Costo computazionale con coda con priorit\`a basata su vettore}
+	\begin{itemize}
+		\item Inizializzazione: costo $O(n)$ con una ripetizione.
+		\item Estrazione minimo: costo $O(n)$ con $O(n)$ ripetizioni.
+		\item Inserimento in coda: costo $O(1)$ con $O(n)$ ripetizioni.
+		\item Aggiornamento priorit\`a: costo $O(1)$ con $O(m)$ ripetizioni.
+	\end{itemize}
+	Per un costo totale di $O(n^2)$.
+	\paragraph{Costo computazionale con coda con priorit\`a basata su heap binario}
+	\begin{itemize}
+		\item Inizializzazione: costo $O(n)$ con una ripetizione.
+		\item Estrazione minimo: costo $O(\log n)$ con $O(n)$ ripetizioni.
+		\item Inserimento in coda: costo $O(\log n)$ con $O(n)$ ripetizioni.
+		\item Aggiornamento priorit\`a: costo $O(\log n)$ con $O(m)$ ripetizioni.
+	\end{itemize}
+	Per un costo totale di $O(m\log n)$.
+	\paragraph{Costo computazionale con coda con priorit\`a basata su heap binario}
+	\begin{itemize}
+		\item Inizializzazione: costo $O(n)$ con una ripetizione.
+		\item Estrazione minimo: costo $O(\log n)$ con $O(n)$ ripetizioni.
+		\item Inserimento in coda: costo $O(\log n)$ con $O(n)$ ripetizioni.
+		\item Aggiornamento priorit\`a: costo ammortizzato $O(1)$ con $O(m)$ ripetizioni.
+	\end{itemize}
+	Per un costo totale di $O(m+n\log n)$.
 \section{Coda Bellman-Ford, Moore}
-Questo algoritmo \`e computazionalmente pi\`u pesante di Dijkstra, ma funziona anche con archi di peso negativo.
-\subsubsection{Inizializzazione}
-Viene creata una coda di dimensione $n$ con costo computazionale $O(n)$.
-\subsubsection{Estrazione}
-Viene estratto il prossimo elemento della coda con costo computazionale $O(1)$.
-\subsubsection{Inserimento in coda}
-Si inserici l'indice $v$ in coda con costo computazionale $O(1)$. Non si deve considerare il caso in cui $v$ sia gi\`a presente in $S$.
-\subsection{Correttezza}
-Si definisce una passata:
-\begin{itemize}
-	\item Per $k=0$ la zeresima passata consiste nell'estrazione del nodo $s$ dalla coda $S$.
-	\item Per $k>0$ la $k$-esima passata consiste nell'estrazione di tutti i nodi presenti in $S$ al termine della passata $k-1$-esima.
-\end{itemize}
-Al termine della passata $k$ i vettori $T$ e $d$ descrivono i cammini minimi di lunghezza al pi\`u $k$, al termine della passata $n-1$ descrivono i cammini minimi di lunghezza al pi\`u
-$n-1$. 
-\subsubsection{Implementazione}
-\input{Pseudocodice/88_ProCamMin}
-\subsubsection{Complessit\`a}
-\begin{itemize}
-	\item Inizializzazione: costo $O(1)$ ripetuto una volta.
-	\item Estrazione: costo $O(1)$ ripetuto $O(n^2)$ volte.
-	\item Inserimento in coda: costo $O(1)$ ripetuto $O(nm)$ volte.
-\end{itemize}
-Il costo totale \`e pertanto $O(mn)$. Ogni nodo pu\`o essere inserito ed estratto al massimo $n-1$ volte.
+	Questo algoritmo \`e computazionalmente pi\`u pesante di Dijkstra, ma funziona anche con archi di
+	peso negativo.
+	\subsubsection{Inizializzazione}
+	Viene creata una coda di dimensione $n$ con costo computazionale $O(n)$.
+	\subsubsection{Estrazione}
+	Viene estratto il prossimo elemento della coda con costo computazionale $O(1)$.
+	\subsubsection{Inserimento in coda}
+	Si inserici l'indice $v$ in coda con costo computazionale $O(1)$. Non si deve considerare il caso
+	in cui $v$ sia gi\`a presente in $S$.
+	\subsection{Correttezza}
+	Si definisce una passata:
+	\begin{itemize}
+		\item Per $k=0$ la zeresima passata consiste nell'estrazione del nodo $s$ dalla coda $S$.
+		\item Per $k>0$ la $k$-esima passata consiste nell'estrazione di tutti i nodi presenti in $S$ al termine
+		      della passata $k-1$-esima.
+	\end{itemize}
+	Al termine della passata $k$ i vettori $T$ e $d$ descrivono i cammini minimi di lunghezza al pi\`u $k$, al termine della passata $n-1$ descrivono i cammini minimi di lunghezza al pi\`u
+	$n-1$.
+	\subsubsection{Implementazione}
+	\input{Pseudocodice/88_ProCamMin}
+	\subsubsection{Complessit\`a}
+	\begin{itemize}
+		\item Inizializzazione: costo $O(1)$ ripetuto una volta.
+		\item Estrazione: costo $O(1)$ ripetuto $O(n^2)$ volte.
+		\item Inserimento in coda: costo $O(1)$ ripetuto $O(nm)$ volte.
+	\end{itemize}
+	Il costo totale \`e pertanto $O(mn)$. Ogni nodo pu\`o essere inserito ed estratto al massimo $n-1$ volte.
 \section{Cammini minimi su DAG}
-I cammini minimi in un DAG sono sempre ben definiti, anche in presenza di pesi negativi in quanto non esistono cicli negativi. \`E possibile rilassare gli archi in ordine topologico una
-volta sola e non essendoci cicli non \`e possibile tornare su un nodo gi\`a visitato e abbassare il valore del suo campo $d$. L'algoritmo utilizza pertanto l'ordinamento topologico.\\
-\input{Pseudocodice/89_ProCamMin}
+	I cammini minimi in un DAG sono sempre ben definiti, anche in presenza di pesi negativi in quanto
+	non esistono cicli negativi. \`E possibile rilassare gli archi in ordine topologico una volta sola
+	e non essendoci cicli non \`e possibile tornare su un nodo gi\`a visitato e abbassare il valore del
+	suo campo $d$. L'algoritmo utilizza pertanto l'ordinamento topologico.\\
+	\input{Pseudocodice/89_ProCamMin}
 \section{Conclusioni}
-\begin{center}
-\begin{tabular}{|c|c|c|}
-	\hline
-	Dijkstra & $O(n^2)$ & Pesi positivi, grafi densi\\
-	\hline
-	Johnson & $O(m\log n)$ & Pesi positivi, grafi sparsi\\
-	\hline
-	Fredman-Tarjan & $O(m+n\log n)$ & \makecell{Pesi positivi, grafi densi \\ dimensioni molto grandi}\\
-	\hline
-	Bellman-Ford & $O(mn)$ & Pesi negativi\\
-	\hline
-		     & $O(m+n)$ & DAG\\
-	\hline
-	DFS & $O(m+n)$ & Senza pesi\\
-	\hline
-\end{tabular}
-\end{center}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Dijkstra       & $O(n^2)$       & Pesi positivi, grafi densi           \\
+			\hline
+			Johnson        & $O(m\log n)$   & Pesi positivi, grafi sparsi          \\
+			\hline
+			Fredman-Tarjan & $O(m+n\log n)$ & \makecell{Pesi positivi, grafi densi \\ dimensioni molto grandi}\\
+			\hline
+			Bellman-Ford   & $O(mn)$        & Pesi negativi                        \\
+			\hline
+			               & $O(m+n)$       & DAG                                  \\
+			\hline
+			DFS            & $O(m+n)$       & Senza pesi                           \\
+			\hline
+		\end{tabular}
+	\end{center}
 \section{Cammini minimi, sorgente multipla}
-\begin{center}
-\begin{tabular}{|c|c|c|}
-	\hline
-	\textbf{Input} & \textbf{Complessit\`a} & \textbf{Approccio}\\
-	\hline
-	\makecell{Pesi positivi, \\ grafo denso} & $O(n\cdot n^2)$ & \makecell{Applicazione ripetuta dell'algoritmo \\ di Dijkstra}\\
-	\hline
-	\makecell{Pesi positivi, \\ grafo sparso}  & $O(n\cdot (m\log n))$ & \makecell{Applicazione ripetuta dell'algoritmo \\ di Johnson}\\
-	\hline
-	Pesi negativi & $O(n\cdot mn)$ & \makecell{Applicazione ripetuta di \\ Bellman-Ford, sconsigliata}\\
-	\hline
-	\makecell{Pesi negativi, \\ grafo denso} & $O(n^3)$ & Algoritmo di Floyd e Warshall\\
-	\hline
-	\makecell{Pesi negativi, \\ grafo sparso} & $O(nm\log n)$ & \makecell{Algoritmo di Johnson per sorgente \\ multipla}\\
-	\hline
-\end{tabular}
-\end{center}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Input} & \textbf{Complessit\`a} & \textbf{Approccio}                 \\
+			\hline
+			\makecell{Pesi positivi,                                                     \\ grafo denso} & $O(n\cdot n^2)$ & \makecell{Applicazione ripetuta dell'algoritmo \\ di Dijkstra}\\
+			\hline
+			\makecell{Pesi positivi,                                                     \\ grafo sparso}  & $O(n\cdot (m\log n))$ & \makecell{Applicazione ripetuta dell'algoritmo \\ di Johnson}\\
+			\hline
+			Pesi negativi  & $O(n\cdot mn)$         & \makecell{Applicazione ripetuta di \\ Bellman-Ford, sconsigliata}\\
+			\hline
+			\makecell{Pesi negativi,                                                     \\ grafo denso} & $O(n^3)$ & Algoritmo di Floyd e Warshall\\
+			\hline
+			\makecell{Pesi negativi,                                                     \\ grafo sparso} & $O(nm\log n)$ & \makecell{Algoritmo di Johnson per sorgente \\ multipla}\\
+			\hline
+		\end{tabular}
+	\end{center}
 \section{Floyd-Warshall}
-\subsection{Cammini minimi $k$-vincolati}
-Sia $k$ un valore in $\{0, \dots, n\}$. Si dice che un cammino $p^k_{xy}$ \`e un cammino $k$-vincolato fra $x$ e $y$ se esso ha il costo minimo fra tutti i cammini fra $x$ e $y$ che non 
-passano per nessun vertice in $v_{k+1}, \dots, v_n$ ($x$ e $y$ sono esclusi dal vincolo). Si assuma che esista un ordinamento tra i nodi del grafo.
-\subsection{Distanza $k$-vincolata}
-Si denota con $d^k[x][y]$ il costo totale del cammino minimo $k$-vincolato fra $x$ e $y$ se esiste.
-$$ d^k[x][y] = \begin{cases}
-	w(p^k_{xy}) & se\ esiste\ p^k_{xy}\\
-	+\infty & altrimenti\\
-\end{cases}$$
-Si pu\`o definire ricorsivamente come:
-$$ d^k[x][y] = \begin{cases}
-	w(x, y) & k = 0\\
-	\min(d^{k-1}[x][y], d^{k-1}[x][k]+d^{k-1}[k][y]) & k>0\\
-\end{cases}$$
-\subsubsection{Matrice dei padri}
-Oltre a definire $d$ si definisce la matrice $T$, dove $T[x][y]$ rappresenta il predecessore di $y$ nel cammino pi\`u breve da $x$ a $y$.\\
-\input{Pseudocodice/90_ProCamMin}
-\section{Chiusura transitiva (algoritmo di Warshall)}
-La chiusura transitiva $G^* = (V, E^*)$ di un grafo $G = (V, E)$ \`e il grafo orientato tale che $(u, v)\in E^*$ se e solo se esiste un cammino da $u$ a $v$ in $G$. Supponendo di avere il
-grafo $G$ rappresentato da una matrice di adiacenza $M$, la matrice $M^n$ rappresenta la matrice di adiacenza di $G^*$.
-\subsubsection{Formulazione ricorsiva}
-$$M^k[x][y] = \begin{cases}
-	M[x][y] & k = 0\\
-	M^{k-1}[x][y]\lor (M^{k-1}[x][k]\land M^{k-1}[k][y] & k>0\\
-\end{cases}$$
+	\subsection{Cammini minimi $k$-vincolati}
+	Sia $k$ un valore in $\{0, \dots, n\}$. Si dice che un cammino $p^k_{xy}$ \`e un cammino
+	$k$-vincolato fra $x$ e $y$ se esso ha il costo minimo fra tutti i cammini fra $x$ e $y$ che non
+	passano per nessun vertice in $v_{k+1}, \dots, v_n$ ($x$ e $y$ sono esclusi dal vincolo). Si assuma
+	che esista un ordinamento tra i nodi del grafo.
+	\subsection{Distanza $k$-vincolata}
+	Si denota con $d^k[x][y]$ il costo totale del cammino minimo $k$-vincolato fra $x$ e $y$ se esiste.
+	$$ d^k[x][y] = \begin{cases}
+			w(p^k_{xy}) & se\ esiste\ p^k_{xy} \\
+			+\infty     & altrimenti           \\
+		\end{cases}$$
+	Si pu\`o definire ricorsivamente come:
+	$$ d^k[x][y] = \begin{cases}
+			w(x, y)                                          & k = 0 \\
+			\min(d^{k-1}[x][y], d^{k-1}[x][k]+d^{k-1}[k][y]) & k>0   \\
+		\end{cases}$$
+	\subsubsection{Matrice dei padri}
+	Oltre a definire $d$ si definisce la matrice $T$, dove $T[x][y]$ rappresenta il predecessore di $y$
+	nel cammino pi\`u breve da $x$ a $y$.\\ \input{Pseudocodice/90_ProCamMin}
+	\section{Chiusura transitiva (algoritmo di Warshall)}
+	La chiusura transitiva $G^* = (V, E^*)$ di un grafo $G = (V, E)$ \`e il grafo orientato tale che
+	$(u, v)\in E^*$ se e solo se esiste un cammino da $u$ a $v$ in $G$. Supponendo di avere il grafo
+	$G$ rappresentato da una matrice di adiacenza $M$, la matrice $M^n$ rappresenta la matrice di
+	adiacenza di $G^*$.
+	\subsubsection{Formulazione ricorsiva}
+	$$M^k[x][y] = \begin{cases}
+			M[x][y]                                             & k = 0 \\
+			M^{k-1}[x][y]\lor (M^{k-1}[x][k]\land M^{k-1}[k][y] & k>0   \\
+		\end{cases}$$
