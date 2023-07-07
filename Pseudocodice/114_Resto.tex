@@ -54,7 +54,7 @@ DP[0] = 0\;
 \For{\Int i = 1 \To R}{
 	DP[i] = +$\infty$\;
 	\For{\Int j = 1 \To n}{
-		\If{i $>$ t[j] \And DP[i - t[j]] + 1 $<$ DP[i]}{
+		\If{i $\ge$ t[j] \And DP[i - t[j]] + 1 $<$ DP[i]}{
 			DP[i] = DP[i - t[j]] + 1\;
 			S[i] = j\;
 		}

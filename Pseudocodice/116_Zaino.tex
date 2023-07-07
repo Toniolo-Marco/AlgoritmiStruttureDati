@@ -49,9 +49,9 @@
 
 \SetKw{Matrix}{matrix}
 
-\caption{\protect\Float[] \protect\Zaino{\protect\Float[] p, \protect\Float[] v, \protect\Float C,\protect\Float n}}
+\caption{\protect\Float[] \protect\Zaino{\protect\Float[] p, \protect\Float[] w, \protect\Float C,\protect\Float n}}
 \Float[] x = \New \Float$[1\dots n]$\;
-$\{$ordina $p$ e $v$ in modo che $\frac{p[1]}{w[1]}\ge\cdots\ge\frac{p[n]}{w[n]}$ $\}$\;
+$\{$ordina $p$ e $w$ in modo che $\frac{p[1]}{w[1]}\ge\cdots\ge\frac{p[n]}{w[n]}$ $\}$\;
 \For{\Int i = 1 \To n}{
 	x[i] = \Min{$\frac{C}{w[i]}$, 1}\;
 	C -= x[i] $\cdot$ w[i]\;
